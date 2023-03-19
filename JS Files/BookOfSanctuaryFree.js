@@ -32,12 +32,14 @@ function ASCalcPointBuy(theScore) {
 	accessed								:	2023/03/15 19:30 GMT+10:00
 	version accessed						:	2.5
 	backup of content at point of access	:	https://raw.githack.com/rjbprime/MPMB-HB-Content/3d80db99b62cf198863b439d637d444a7182173d/DDB%20Backup%20PDFs/The%20Kara-Turan%20Hengeyokai%20Race%20for%20Dungeons%20&%20Dragons%20(D&D)%20Fifth%20Edition%20(5e)%20-%20D&D%20Beyond.pdf
+	Modifications							:	Removed (K/k)ara-turan from (sub)races
 
 */
-RaceList["kara-turan sparrow hengeyokai"] = {
-	regExpSearch : /kara-turan sparrow hengeyokai/i,
-	name : "Kara-Turan Sparrow Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (Sparrow)",
+
+RaceList["hengeyokai"] = {
+	regExpSearch : /hengeyokai/i,
+	name : "Hengeyokai",
+	sortname : "Hengeyokai",
 	source : [["BOS", 6]],
 	plural : "Hengeyokai",
 	size : 3,
@@ -50,175 +52,139 @@ RaceList["kara-turan sparrow hengeyokai"] = {
 	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
 	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
 	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
+	trait : "Hengeyokai (+2 Dexterity, my creature type is fey and humanoid)"+
+		"\n \u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form."+
+		"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger, cat, crab, dog (mastiff), hare (weasel stats block, speed 40), monkey, rat, or sparrow.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The sparrow grants no other benefit than the flying speed gained in animal form.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed."+
+		"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In my hybrid form, I stand at my human height on my hind legs or similar appendages. I assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain my animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
+	features : {
+		"animal form" : {
+			name : "Animal Form",
+			minlevel : 1,
+			usages : "Proficiency bonus per ",
+			action : [["action", ""]],
+			usagescalc : "event.value = How('Proficiency Bonus');",
+			recovery: "short rest"
+		},
+		"hybrid form" : {
+			name : "Hybrid Form",
+			minlevel : 1,
+			usages : "Proficiency bonus per ",
+			action : [["action", ""]],
+			usagescalc : "event.value = How('Proficiency Bonus');",
+			recovery: "short rest"
+		}
+	},
+	toNotesPage : [{
+		name : "Animal Form",
+		source : [["BOS", 6]],
+		popupName : "Hengeyokai Animal Form Features",
+		page3notes : true,
+		note : [
+			"\u2022 Assume Animal Form",
+			" I can transform as an action and stay in my beast shape indefinitely.",
+			" I can revert to my hybrid or human form by using a bonus action on my turn.",
+			" I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
+			" See the druid's Wild Shape feature for the rules that apply while I am transformed",
+			"\u2022 Animal Selection",
+			" I select my animal form in the Wild Shape page."
+		]
+	},
+	{
+		name : "Hybrid Form",
+		source : [["BOS", 6]],
+		popupName : "Hengeyokai Hybrid Form Features",
+		page3notes : true,
+		note : [
+			"\u2022 Assume Hybrid Form",
+			" I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.",
+			" In my hybrid form, I stand at my human height on my hind legs or similar appendages. I assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain my animalistic appearance, including fur, scales, feathers, tails, and other characteristics.",
+			" At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.",
+			" While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.",
+			" I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die."
+		]
+	}]
+};
+
+AddRacialVariant("hengeyokai", "badger", {
+	regExpSearch : /badger/i,
+	name : "Badger Hengeyokai",
+	trait : "Badger Hengeyokai (+2 Dexterity, +1 Constitution" + desc([
+		"Badger Animal Form"
+	]),
+	scores : [0, 2, 1, 0, 0, 0]
+});
+
+AddRacialVariant("hengeyokai", "cat", {
+	regExpSearch : /cat/i,
+	name : "Cat Hengeyokai",
+	trait : "Cat Hengeyokai (+2 Dexterity, +1 Charisma" + desc([
+		"Cat Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 1]
+});
+
+AddRacialVariant("hengeyokai", "crab", {
+	regExpSearch : /crab/i,
+	name : "Crab Hengeyokai",
+	trait : "Crab Hengeyokai (+2 Dexterity, 20ft Swim speed" + desc([
+		"Crab Animal Form"
+	]),
 	scores : [0, 2, 0, 0, 0, 0],
-	trait : "Kara-Turan Sparrow Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: sparrow.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The sparrow grants no other benefit than the flying speed gained in animal form.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
-
-RaceList["kara-turan badger hengeyokai"] = {
-	regExpSearch : /kara-turan badger hengeyokai/i,
-	name : "Kara-Turan Badger Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (badger)",
-	source : [["BOS", 6]],
-	plural : "Hengeyokai",
-	size : 3,
 	speed : {
-		walk : { spd : 30, enc : 20 }
-	},
-	languageProfs : ["Common", 2],
-	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
-	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
-	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
-	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
-	scores : [0, 2, 1, 0, 0, 0],
-	trait : "Kara-Turan Badger Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The badger grants +1 Constitution.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
-
-RaceList["kara-turan cat hengeyokai"] = {
-	regExpSearch : /kara-turan cat hengeyokai/i,
-	name : "Kara-Turan Cat Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (cat)",
-	source : [["BOS", 6]],
-	plural : "Hengeyokai",
-	size : 3,
-	speed : {
-		walk : { spd : 30, enc : 20 }
-	},
-	languageProfs : ["Common", 2],
-	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
-	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
-	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
-	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
-	scores : [0, 2, 0, 0, 0, 1],
-	trait : "Kara-Turan Cat Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The cat grants +1 Charisma.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
-
-RaceList["kara-turan crab hengeyokai"] = {
-	regExpSearch : /kara-turan crab hengeyokai/i,
-	name : "Kara-Turan Crab Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (crab)",
-	source : [["BOS", 6]],
-	plural : "Hengeyokai",
-	size : 3,
-	speed : {
-		walk : { spd : 30, enc : 20 },
 		swim : { spd : 20, enc : 10 }
-	},
-	languageProfs : ["Common", 2],
-	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
-	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
-	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
-	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
-	scores : [0, 2, 0, 0, 0, 0],
-	trait : "Kara-Turan Crab Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The crab grants a 20 foot swim speed.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
+	}
+});
 
-RaceList["kara-turan mastiff hengeyokai"] = {
-	regExpSearch : /kara-turan mastiff hengeyokai/i,
-	name : "Kara-Turan Mastiff Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (mastiff)",
-	source : [["BOS", 6]],
-	plural : "Hengeyokai",
-	size : 3,
-	speed : {
-		walk : { spd : 30, enc : 20 }
-	},
-	languageProfs : ["Common", 2],
-	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
-	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
-	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
-	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
-	scores : [0, 2, 0, 0, 0, 1],
-	trait : "Kara-Turan Mastiff Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The mastiff grants +1 Strength.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
+AddRacialVariant("hengeyokai", "dog (mastiff)", {
+	regExpSearch : /dog/i,
+	name : "Dog (Mastiff) Hengeyokai",
+	trait : "Dog (Mastiff) Hengeyokai (+2 Dexterity, +1 Strength" + desc([
+		"Mastiff Animal Form"
+	]),
+	scores : [1, 2, 0, 0, 0, 0]
+});
 
-RaceList["kara-turan hare hengeyokai"] = {
-	regExpSearch : /kara-turan hare hengeyokai/i,
-	name : "Kara-Turan Hare Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (hare)",
-	source : [["BOS", 6]],
-	plural : "Hengeyokai",
-	size : 3,
+AddRacialVariant("hengeyokai", "hare", {
+	regExpSearch : /hare/i,
+	name : "Hare Hengeyokai",
+	trait : "Hare Hengeyokai (+2 Dexterity, +1 Wisdom" + desc([
+		"Hare Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 1, 0],
 	speed : {
 		walk : { spd : 40, enc : 30 }
-	},
-	languageProfs : ["Common", 2],
-	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
-	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
-	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
-	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
-	scores : [0, 2, 0, 0, 1, 0],
-	trait : "Kara-Turan Hare Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The hare grants +1 Strength and an improved walking speed of 40 feet, instead of 30 feet.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
+	}
+});
 
-RaceList["kara-turan monkey hengeyokai"] = {
-	regExpSearch : /kara-turan monkey hengeyokai/i,
-	name : "Kara-Turan Monkey Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (monkey)",
-	source : [["BOS", 6]],
-	plural : "Hengeyokai",
-	size : 3,
+AddRacialVariant("hengeyokai", "monkey", {
+	regExpSearch : /monkey/i,
+	name : "Monkey Hengeyokai",
+	trait : "Monkey Hengeyokai (+2 Dexterity, 20ft Climb Speed" + desc([
+		"Monkey Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 0],
 	speed : {
-		walk : { spd : 30, enc : 20 },
 		climb : { spd : 20, enc : 10 }
-	},
-	languageProfs : ["Common", 2],
-	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
-	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
-	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
-	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
-	scores : [0, 2, 0, 0, 0, 1],
-	trait : "Kara-Turan Monkey Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The monkey grants a 20 foot climbing speed.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
+	}
+});
 
-RaceList["kara-turan rat hengeyokai"] = {
-	regExpSearch : /kara-turan rat hengeyokai/i,
-	name : "Kara-Turan Rat Hengeyokai",
-	sortname : "Hengeyokai, Kara-Turan (rat)",
-	source : [["BOS", 6]],
-	plural : "Hengeyokai",
-	size : 3,
-	speed : {
-		walk : { spd : 30, enc : 20 }
-	},
-	languageProfs : ["Common", 2],
-	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
-	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
-	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
-	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
-	scores : [0, 2, 0, 0, 0, 1],
-	trait : "Kara-Turan Rat Hengeyokai" + (typePF ? "\n " : "\t") +
-	"\u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form." +
-	"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The rat grants Advantage on Wisdom (Perception) checks that rely on smell.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed." +
-	"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In our hybrid form, hengeyokai stand at our human height on our hind legs or similar appendages. We assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain our animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
-};
+AddRacialVariant("hengeyokai", "rat", {
+	regExpSearch : /rat/i,
+	name : "Rat Hengeyokai",
+	trait : "Rat Hengeyokai (+2 Dexterity, Advantage Wisdom (Perception) checks that rely on smell" + desc([
+		"Rat Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 0]
+});
+
+AddRacialVariant("hengeyokai", "sparrow", {
+	regExpSearch : /sparrow/i,
+	name : "Sparrow Hengeyokai",
+	trait : "Sparrow Hengeyokai (+2 Dexterity, Fly speed in animal form" + desc([
+		"Sparrow Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 0]
+});
 
 //	New Creatures
 
