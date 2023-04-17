@@ -343,3 +343,87 @@ CreatureList["hare"] = {
 		description : "The weasel has advantage on Wisdom (Perception) checks that rely on hearing or smell."
 	}]
 };
+
+/*	Odachi
+	url of full content						:	none
+	submitted by							:	RJB
+	accessed								:	2023/03/27 23:10 GMT+10:00
+	version accessed						:	2023/03/27 23:10 GMT+10:00
+	backup of content at point of access	:	none
+	Modifications							:	none
+*/
+
+WeaponsList["odachi"] = {
+	name : "Odachi",
+	source : ["BOS", 9],
+	defaultExcluded : true,
+	regExpSearch : /^(?=.*odachi).*$/i,
+	type : "Martial",
+	ability : 1,
+	abilitytodamage : true,
+	damage : [2, 6, "piercing or slashing"],
+	range : "Melee",
+	description : "Heavy, reach, two-handed",
+	tooltip : "Special: I may chose to deal either piercing or slashing damage.",
+	special : false,
+	list : "melee",
+	weight : 4.8,
+	monkweapon : true,
+	baseWeapon : "greatsword",
+};
+
+/*	Katana
+	url of full content						:	none
+	submitted by							:	RJB
+	accessed								:	2023/03/27 23:10 GMT+10:00
+	version accessed						:	2023/03/27 23:10 GMT+10:00
+	backup of content at point of access	:	none
+	Modifications							:	none
+*/
+
+WeaponsList["katana"] = {
+	name : "Katana",
+	source : ["BOS", 9],
+	defaultExcluded : true,
+	regExpSearch : /^(?=.*katana).*$/i,
+	type : "Martial",
+	ability : 1,
+	abilitytodamage : true,
+	damage : [1, 8, "piercing or slashing"],
+	range : "Melee",
+	description : "Finesse, Versatile (1d10)",
+	tooltip : "Special: I may chose to deal either piercing or slashing damage.",
+	special : false,
+	list : "melee",
+	weight : 2.5,
+	monkweapon : true,
+	baseWeapon : "longsword",
+};
+
+/*	Wakizashi
+	url of full content						:	none
+	submitted by							:	RJB
+	accessed								:	2023/03/28 12:30 GMT+10:00
+	version accessed						:	2023/03/28 12:30 GMT+10:00
+	backup of content at point of access	:	none
+	Modifications							:	none
+*/
+
+WeaponsList["wakizashi"] = {
+	name : "Wakizashi",
+	source : ["BOS", 9],
+	defaultExcluded : true,
+	regExpSearch : /^(?=.*wakizashi).*$/i,
+	type : "Martial",
+	ability : 1,
+	abilitytodamage : true,
+	damage : [1, 6, "piercing or slashing"],
+	range : "Melee",
+	description : "Finesse, light",
+	tooltip : "Special: I may chose to deal either piercing or slashing damage.",
+	special : false,
+	list : "melee",
+	weight : 1.75,
+	monkweapon : true,
+	baseWeapon : "longsword",
+};
