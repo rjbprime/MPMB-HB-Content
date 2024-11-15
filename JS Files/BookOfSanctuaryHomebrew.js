@@ -1,5 +1,5 @@
 if (sheetVersion < 13001003) { throw "This script was made for a newer version of the sheet. Please use the latest version and try again.\nYou can get the latest version on www.flapkan.com."; };
-var iFileName = "BookOfSanctuaryFree.js";
+var iFileName = "BookOfSanctuaryHomebrew.js";
 RequiredSheetVersion("13.1.3");
 
 //	Define the source
@@ -8,7 +8,7 @@ SourceList["BOS"] = {
 	abbreviation : "BOS",
 	group : "Personal Campaign House Rules",
 	campaignSetting : "Book of Sanctuary",
-	date : "2023/02/27"
+	date : "2099/12/31"
 };
 
 //	a function to calculate the point buy value of a stat
@@ -50,7 +50,7 @@ RaceList["hengeyokai"] = {
 	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
 	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
 	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
-	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
+	heightMetric : " range from barely 1,5 to well over 1,8 meters tall (145 + 5d10 cm)",
 	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
 	trait : "Hengeyokai (+2 Dexterity, my creature type is fey and humanoid)"+
 		"\n \u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form."+
@@ -194,7 +194,7 @@ AddRacialVariant("hengeyokai", "sparrow", {
 	accessed								:	2023/03/15 19:30 GMT+10:00
 	version accessed						:	2.5
 	backup of content at point of access	:	https://raw.githack.com/rjbprime/MPMB-HB-Content/3d80db99b62cf198863b439d637d444a7182173d/DDB%20Backup%20PDFs/Common%20Perching%20Bird%20-%20Monsters%20-%20Homebrew%20-%20D&D%20Beyond.pdf
-	Modifications							:	Changed referrences of "(C/c)ommon (P/p)erching (B/b)ird" to "(S/s)parrow"
+	Modifications							:	Changed references of "(C/c)ommon (P/p)erching (B/b)ird" to "(S/s)parrow"
 */
 
 CreatureList["sparrow"] = {
@@ -425,5 +425,163 @@ WeaponsList["wakizashi"] = {
 	list : "melee",
 	weight : 1.75,
 	monkweapon : true,
-	baseWeapon : "longsword",
+	baseWeapon : "scimitar",
 };
+
+// Double bladed scimitar
+if (!WeaponsList["double-bladed scimitar"]){
+	WeaponsList["double-bladed scimitar"] = {
+		regExpSearch : /^(?=.*double)(?=.*scimitar).*$/i,
+		name : "Double-bladed scimitar",
+		nameAlt : ["Scimitar, Double-bladed"],
+		source : [["E:RLW", 22], ["WGtE", 74]],
+		list : "melee",
+		ability : 1,
+		type : "Martial",
+		damage : [2, 4, "slashing"],
+		range : "Melee",
+		weight : 6,
+		description : "Two-handed; With Attack action, one attack as bonus action for 1d4",
+		special : true,
+		abilitytodamage : true
+};
+}
+
+// Revenant blade feat
+FeatsList["revenant blade"] = {
+	name : "Revenant Blade",
+	source : [["BOS", 6]],
+	prerequisite : "Being an Elf or Harengon",
+	prereqeval : function(v) { return (/^(?!.*half)(?=.*(elf|eladrin|avariel|grugach|shadar-kai|harengon)).*$/i).test(CurrentRace.known); },
+	descriptionFull : "You are descended from a master of the double blade and their skills have passed on to you. You gain the following benefits:\n \u2022 Increase your Dexterity or Strength score by 1, to a maximum of 20.\n \u2022 While wielding a double-bladed weapon with two hands, the weapon has the finesse trait for your attacks with it, and you gain +1 AC.\n \u2022 On your turn, when you use a bonus action to make a melee attack with the blade at the opposite end of the weapon, the weapon's damage die for this attack increases to 2d4, instead of 1d4.",
+	description : "As a bonus action with the Attack action, I can make an extra with a double-bladed weapon for 2d4 slashing damage. I treat double-bladed weapons as having the finesse trait. +1 AC while wielding a double-bladed weapon with two hands. [+1 Strength or Dexterity]",
+	scorestxt : "+1 Strength or Dexterity",
+	action : [["bonus action", " (with Attack action)"]],
+	calcChanges : {
+		atkAdd : [
+			function (fields, v) {
+				if (v.baseWeaponName == 'double-bladed scimitar' && fields.Proficiency) {
+					fields.Description = fields.Description.replace('Two-handed; With Attack action, one attack as bonus action for 1d4', 'Finesse, two-handed; With Attack action, one attack as bonus action');
+					fields.Mod = v.StrDex;
+				};
+			},
+			"Double-bladed weapons count as having finesse for me and I can make an extra attack with them as a bonus action when taking the Attack action."
+		]
+	},
+	extraAC : {
+		mod : 1,
+		text : "I gain a +1 bonus to AC while I'm wielding a double-bladed weapon in two hands.",
+		stopeval : function (v) { return v.usingShield && !(/animated/i).test(What("AC Shield Bonus Description")) || !CurrentWeapons.known.some(function (n) { return n[0] == "double-bladed scimitar" || (WeaponsList[n[0]] && WeaponsList[n[0]].baseWeapon == "double-bladed scimitar"); }); }
+	}
+};
+
+
+// Dreamwalker feat
+FeatsList["dreamwalker"] = {
+	name : "Dreamwalker",
+	source : [["BOS", 6]],
+	descriptionFull : "Either through training or unknown reasons, you are able to walk between reality and dreams. You gain the following benefit:\n During a long rest, you can enter the Ethereal Plane as an astral projection of yourself. While on this plane, you can see when a creature is dreaming by seeing a near transparent sphere that deforms the fabric of the plane like water refracting light around its head. You can choose to peer into the dream or enter it for a number of minutes equal to five times your proficiency bonus. Once you've peered on enter into a creature's dream, you can't peer again into this creature's dreams until your next long rest.\n If you chose to enter the dream, you may interact with it however you choose and you can also communicate with the dreamer. When the dreamer wakes up, it can make an Insight check against your spell save DC or against a Deception or Persuasion check, your choice, to acknowledge that its dream has been meddled with.\n The DM may choose to not make a roll or give advantage or even disadvantage on the roll depending on the situation and the complexity of the dream. Inserting yourself in a dream has a chance of failure depending on your relationship with the creature. When you enter a dream, the DM rolls d100 and consults the table following.\n\n",
+		"Relationship    Failure    Success",
+		"Family Member   \u2013     01-100",
+		"Close Friend    01-10      11-100",
+		"Friend          01-20      21-100",
+		"Trusted Ally    01-30      31-100",
+		"Acquaintance    01-40      41-100",
+		"Stranger        01-50      51-100\n\n",
+		"Any damage you take while on the Ethereal Plane through this feat is also inflicted on your physical body. You die in your sleep if you are killed while on the Ethereal Plane.\n Resting while Dreamwalking isn't as recovering as a normal. At the end of a long rest where you dreamwalked, you do not recover lost Hit Points, though you still regain all Hit Dice normally gained through a long rest. You can spend one or more Hit Dice at the end of the long rest to regain Hit points.",
+	description : "As a part of a Long Rest, I can enter the dreams of other creatures via the Ethereal Plane, and can choose to interact with said creature in their dreams, for up to five times my proficiency bonus per day. Any damage carries over to my waking body, and I do not restore damage to my Hit Points upon waking, though I do recover my Hit Dice normally, and can spend them to recover afterwards.",
+};
+
+// Monk Changes
+
+ClassList["monk"]["die"] = 10
+if (ClassList["monk"]["features"]["martial arts"]["calcChanges"] != undefined)
+   ClassList["monk"]["features"]["martial arts"]["calcChanges"]["atkAdd"] = [function (fields, v) {
+        if (classes.known.monk && classes.known.monk.level && (v.theWea.monkweapon || v.baseWeaponName == "unarmed strike" || v.baseWeaponName == "shortsword" || (v.isMeleeWeapon && (/simple/i).test(v.theWea.type) && !(/heavy|((^|[^+-]\b)2|\btwo).?hand(ed)?s?/i).test(fields.Description)))) {
+            v.theWea.monkweapon = true;
+            var aMonkDie = function (n) { return n < 5 ? 6 : n < 11 ? 8 : n < 17 ? 10 : 12; }(classes.known.monk.level);
+            try {
+                var curDie = eval_ish(fields.Damage_Die.replace('d', '*'));
+            } catch (e) {
+                var curDie = 'x';
+            };
+            if (isNaN(curDie) || curDie < aMonkDie) {
+                fields.Damage_Die = '1d' + aMonkDie;
+            };
+            if (fields.Mod == 1 || fields.Mod == 2 || What(AbilityScores.abbreviations[fields.Mod - 1] + " Mod") < What(AbilityScores.abbreviations[v.StrDex - 1] + " Mod")) {
+                fields.Mod = v.StrDex;
+            }
+        };
+    },
+    "I can use either Strength or Dexterity and my Martial Arts damage die in place of the normal damage die for any 'Monk Weapons', which include unarmed strike, shortsword, and any simple melee weapon that is not two-handed or heavy.",
+    5]
+if (ClassList["monk"]["features"]["martial arts"]["choose monk weapons"] != undefined)
+    ClassList["monk"]["features"]["martial arts"]["choose monk weapons"]["calcChanges"]["atkAdd"] = [function (e,a){var t,n=["unarmed strike"].concat(GetFeatureChoice("classes","monk","martial arts",!0));if(classes.known.monk&&classes.known.monk.level&&(-1!=n.indexOf(a.baseWeaponName)||/monk weapon/i.test(a.WeaponTextName))){var i=(t=classes.known.monk.level)<5?6:t<11?8:t<17?10:12;try{var o=eval_ish(e.Damage_Die.replace("d","*"))}catch(e){o="x"}(isNaN(o)||o<i)&&(e.Damage_Die="1d"+i),(1==e.Mod||2==e.Mod||What(AbilityScores.abbreviations[e.Mod-1]+" Mod")<What(AbilityScores.abbreviations[a.StrDex-1]+" Mod"))&&(e.Mod=a.StrDex)}
+    },
+    "I can use either Strength or Dexterity and my Martial Arts damage die in place of the normal damage die for any 'Monk Weapons', which include unarmed strike and 5 + my Wisdom modifier of simple or martial weapons of my choice that I'm proficient with and that don't have the two-handed, heavy, or special property. I can select these weapon using the \"Choose Feature\" button on the 2nd page, or have them count as such by including the words \"Monk Weapon\" in the name of the weapon.",
+    1];
+
+// Brute Fighter
+
+var UATS_fighterBruteSubclassUA = AddSubClass("fighter", "brute-ua", {
+	regExpSearch : /brute/i,
+	subname : "Brute",
+	source : [["UA:TS", 2]],
+	fullname : "Brute",
+	features : {
+		"subclassfeature3" : {
+			name : "Brute Force",
+			source : [["UA:TS", 2]],
+			minlevel : 3,
+			description : "\n   " + "I do additional damage with weapons that I'm proficient with",
+			additional : levels.map(function (n) {
+				return n < 3 ? "" : "+1d" + (n < 10 ? 4 : n < 16 ? 6 : n < 20 ? 8 : 10) + " weapon damage";
+			}),
+			calcChanges : {
+				atkAdd : [
+					function (fields, v) {
+						if (classes.known.fighter && classes.known.fighter.level > 2 && !v.isSpell && !v.isNaturalWeapon && fields.Proficiency) {
+							fields.Description += (fields.Description ? '; ' : '') + '+1d' + (classes.known.fighter.level < 10 ? 4 : classes.known.fighter.level < 16 ? 6 : classes.known.fighter.level < 20 ? 8 : 10) + ' damage';
+						};
+					},
+					"I do +1d4 damage with weapons that I'm proficient with. This increases to 1d6 at 10th level, 1d8 at 16th level, and 1d10 at 20th level."
+				]
+			}
+		},
+		"subclassfeature7" : {
+			name : "Brutish Durability",
+			source : [["UA:TS", 2]],
+			minlevel : 7,
+			description : desc([
+				"I add +1d6 to all my saving throws, including death saves",
+				"If the total of a death save is 20 or more, it counts as rolling a 20"
+			]),
+			savetxt : { text : ["Add 1d6 to all saves"] }
+		},
+		"subclassfeature15" : {
+			name : "Devastating Critical",
+			source : [["UA:TS", 2]],
+			minlevel : 15,
+			description : "\n   " + "Whenever I score a critical hit with a weapon, I add my fighter level to the damage",
+			additional : levels.map(function (n) { return n < 15 ? "" : "+" + n + " damage on crit"; })
+		},
+		"subclassfeature18" : {
+			name : "Survivor",
+			source : [["UA:TS", 2]],
+			minlevel : 18,
+			description : desc([
+				"If I have less than half my max HP at the start of my turn, I heal myself",
+				"I regain HP equal to 5 + Constitution modifier (min 1); This doesn't work if I'm at 0 HP"
+			])
+		}
+	}
+});
+RunFunctionAtEnd(function () {
+	var FSfea = newObj(ClassList.fighter.features["fighting style"]);
+	FSfea.name = "Additional Fighting Style";
+	FSfea.source = ["UA:TS", 2];
+	FSfea.minlevel = 10;
+	FSfea.extrachoices = "";
+	FSfea.description = '\n   Choose an Additional Fighting Style using the "Choose Feature" button above ';
+	ClassSubList[UATS_fighterBruteSubclassUA].features.subclassfeature10 = FSfea;
+});
