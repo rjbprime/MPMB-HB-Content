@@ -186,51 +186,6 @@ AddRacialVariant("hengeyokai", "sparrow", {
 	scores : [0, 2, 0, 0, 0, 0]
 });
 
-// Revised Races
-
-RaceList.harengon = {
-			regExpSearch: /harengon/i,
-			name: "Harengon",
-			source: [
-				["WBtW", 13],
-				["MotM", 22],
-			],
-			plural: "Harengons",
-			size: [3, 4],
-			speed: { walk: { spd: 30, enc: 20 } },
-			weaponProfs : [false, false, ["scimitar", "double-bladed scimitar", "longbow", "shortbow"]],
-			skills: ["Perception"],
-			addMod: [
-				{
-					type: "skill",
-					field: "Init",
-					mod: "Prof",
-					text: "I can add my proficiency bonus to my initiative rolls.",
-				},
-			],
-			scoresGeneric: !0,
-			action: [
-				["reaction", "Lucky Footwork"],
-				["bonus action", "Rabbit Hop"],
-			],
-			features: {
-				"rabbit hop": {
-					name: "Rabbit Hop",
-					minlevel: 1,
-					usages: "Proficiency bonus per ",
-					usagescalc: "event.value = How('Proficiency Bonus');",
-					recovery: "long rest",
-					additional: ProficiencyBonusList.map(function (e) {
-						e = 5 * e + " ft";
-						return "metric" === What("Unit System")
-							? ConvertToMetric(e)
-							: e;
-					}),
-				},
-			},
-			trait: "Harengon\n • Hare-Trigger: I can add my proficiency bonus to my initiative rolls.\n • Leporine Senses: I have proficiency in the Perception skill.\n • Lucky Footwork: As a reaction when I fail a Dexterity saving throw, I can add +1d4 to the result, potentially making it a success. I can't do this if I'm prone or my speed is 0.\n • Rabbit Hop: As a bonus action if my speed isn't 0, I can jump 5 ft times my Prof Bonus without provoking opportunity attacks. I can do this my Prof Bonus times per long rest.",
-		}
-
 //	New Creatures
 
 /*	Common Perching Bird
