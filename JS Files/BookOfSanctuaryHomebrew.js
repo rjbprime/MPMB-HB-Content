@@ -1,5 +1,5 @@
 if (sheetVersion < 13001003) { throw "This script was made for a newer version of the sheet. Please use the latest version and try again.\nYou can get the latest version on www.flapkan.com."; };
-var iFileName = "BookOfSanctuaryFree.js";
+var iFileName = "BookOfSanctuaryHomebrew.js";
 RequiredSheetVersion("13.1.3");
 
 //	Define the source
@@ -188,7 +188,7 @@ AddRacialVariant("hengeyokai", "sparrow", {
 
 // Revised Races
 
-RaceList["harengon"] = {
+RaceList["harengon-bos"] = {
 	regExpSearch : /harengon/i,
 	name : "Harengon",
 	source : [["BOS", 6]],
@@ -197,7 +197,7 @@ RaceList["harengon"] = {
 	speed : {
 		walk : { spd : 30, enc : 20 },
 	},
-	weaponProfs : [false, false, ["scimitar", "double-bladed scimitar", "longbow", "shortbow"]],
+	weaponProfs : [!1, !1, ["scimitar", "double-bladed scimitar", "longbow", "shortbow"]],
 	skills : ["Perception"],
 	addMod : [{ type : "skill", field : "Init", mod : "Prof", text : "I can add my proficiency bonus to my initiative rolls." }],
 	scoresGeneric : true,
@@ -464,6 +464,223 @@ WeaponsList["wakizashi"] = {
 	baseWeapon : "scimitar",
 };
 
+WeaponsList["palm pistol"] = {
+	regExpSearch : /^(?=.*palm)(?=.*pistol).*$/i,
+	name : "Palm pistol",
+	source : ["BOS", 9],
+	list : "firearm",
+	ability : 2,
+	type: "Firearms",
+	damage : [1, 8, "piercing"],
+	range : "40/160 ft",
+	weight : 1,
+	description : "Light, reload 1",
+	abilitytodamage : true,
+	ammo : "pistol bullets"
+};
+AmmoList["palm pistol bullets"] = {
+	name : "Palm Pistol Bullets",
+	source : ["BOS", 9],
+	weight : 0.015,
+	icon : "Bullets",
+	checks : [".Bullet"],
+	display : 50,
+	invName : "Bullets, palm pistol"
+};
+GearList["ammunition: bullets palm pistol (20)"] = {
+	infoname : "   Palm pistol bullets (20) [2 gp]",
+	source : ["BOS", 9],
+	name : "Bullets, palm pistol",
+	amount : 20,
+	weight : 0.015
+};
+
+WeaponsList["pistol-bos"] = {
+	regExpSearch : /^(?=.*pistol)(?!.*automatic).*$/i,
+	name : "Pistol",
+	source : ["BOS", 9],
+	list : "firearm",
+	ability : 2,
+	type: "Firearms",
+	damage : [1, 10, "piercing"],
+	range : "60/240 ft",
+	weight : 3,
+	description : "Reload 4",
+	abilitytodamage : true,
+	ammo : "pistol bullets"
+};
+AmmoList["pistol bullets"] = {
+	name : "Pistol Bullets",
+	source : ["BOS", 9],
+	weight : 0.015,
+	icon : "Bullets",
+	checks : [".Bullet"],
+	display : 50,
+	invName : "Bullets, pistol"
+};
+GearList["ammunition: bullets pistol (20)"] = {
+	infoname : "   Pistol bullets (20) [4 gp]",
+	source : ["BOS", 9],
+	name : "Bullets, pistol",
+	amount : 20,
+	weight : 0.015
+};
+
+WeaponsList["musket-bos"] = {
+	regExpSearch : /musket/i,
+	name : "Musket",
+	source : ["BOS", 9],
+	list : "firearm",
+	ability : 2,
+	type: "Firearms",
+	damage : [1, 12, "piercing"],
+	range : "140/480 ft",
+	weight : 10,
+	description : "Two-handed, reload 1",
+	abilitytodamage : true,
+	ammo : "musket bullets"
+};
+AmmoList["musket bullets"] = {
+	name : "Musket Bullets",
+	source : ["BOS", 9],
+	weight : 0.025,
+	icon : "Bullets",
+	checks : [".Bullet"],
+	display : 50,
+	invName : "Bullets, musket"
+};
+GearList["ammunition: bullets musket (20)"] = {
+	infoname : "   Musket bullets (20) [5 gp]",
+	source : ["BOS", 9],
+	name : "Bullets, musket",
+	amount : 20,
+	weight : 0.025
+};
+
+WeaponsList["pepperbox"] = {
+	regExpSearch : /pepperbox/i,
+	name : "Pepperbox",
+	source : ["BOS", 9],
+	list : "firearm",
+	ability : 2,
+	type: "Firearms",
+	damage : [1, 10, "piercing"],
+	range : "80/320 ft",
+	weight : 5,
+	description : "Reload 6",
+	abilitytodamage : true,
+	ammo : "pepperbox bullets"
+};
+AmmoList["pepperbox bullets"] = {
+	name : "Pepperbox Bullets",
+	source : ["BOS", 9],
+	weight : 0.015,
+	icon : "Bullets",
+	checks : [".Bullet"],
+	display : 50,
+	invName : "Bullets, pepperbox"
+};
+GearList["ammunition: bullets pepperbox (20)"] = {
+	infoname : "   Pepperbox bullets (20) [4 gp]",
+	source : ["BOS", 9],
+	name : "Bullets, pepperbox",
+	amount : 20,
+	weight : 0.015
+};
+
+WeaponsList["blunderbuss"] = {
+	regExpSearch : /blunderbuss/i,
+	name : "Blunderbuss",
+	source : ["BOS", 9],
+	list : "firearm",
+	ability : 2,
+	type: "Firearms",
+	damage : [2, 8, "piercing"],
+	range : "15/60 ft",
+	weight : 10,
+	description : "Reload 1",
+	abilitytodamage : true,
+	ammo : "blunderbuss shells"
+};
+AmmoList["blunderbuss shells"] = {
+	name : "Blunderbuss Shells",
+	source : ["BOS", 9],
+	weight : 0.2,
+	icon : "Bullets",
+	checks : [".Bullet"],
+	display : 50,
+	invName : "Blunderbuss shells"
+};
+GearList["ammunition: blunderbuss shells (5)"] = {
+	infoname : "   Blunderbuss shells (5) [5 gp]",
+	source : ["BOS", 9],
+	name : "Blunderbuss shells",
+	amount : 5,
+	weight : 0.2
+};
+
+WeaponsList["bad news"] = {
+	regExpSearch : /bad news/i,
+	name : "Bad News",
+	source : ["BOS", 9],
+	list : "firearm",
+	ability : 2,
+	type: "Firearms",
+	damage : [2, 12, "piercing"],
+	range : "200/800 ft",
+	weight : 25,
+	description : "Two-handed, reload 1",
+	abilitytodamage : true,
+	ammo : "bad news bullets"
+};
+AmmoList["bad news bullets"] = {
+	name : "Bad News Bullets",
+	source : ["BOS", 9],
+	weight : 0.05,
+	icon : "Bullets",
+	checks : [".Bullet"],
+	display : 50,
+	invName : "Bullets, bad news"
+};
+GearList["ammunition: bullets bad news (5)"] = {
+	infoname : "   Bad news bullets (5) [10 gp]",
+	source : ["BOS", 9],
+	name : "Bullets, bad news",
+	amount : 5,
+	weight : 0.05
+};
+
+WeaponsList["hand mortar"] = {
+	regExpSearch : /hand mortar/i,
+	name : "Hand Mortar",
+	source : ["BOS", 9],
+	list : "firearm",
+	ability : 2,
+	type: "Firearms",
+	damage : [2, 8, "fire"],
+	range : "30/60 ft",
+	weight : 10,
+	description : "Reload 1, explosive (5 ft around target Dex save or 1d8 fire damage)",
+	abilitytodamage : true,
+	ammo : "hand mortar grenades"
+};
+AmmoList["hand mortar grenades"] = {
+	name : "Hand Mortar Grenades",
+	source : ["BOS", 9],
+	weight : 0.65,
+	icon : "Bullets",
+	checks : [".Bullet"],
+	display : 50,
+	invName : "Hand mortar grenades"
+};
+GearList["ammunition: hand mortar grenade"] = {
+	infoname : "   Hand mortar grenade [1 gp]",
+	source : ["BOS", 9],
+	name : "Hand mortar grenade",
+	amount : "",
+	weight : 0.65
+};
+
 // New Feats
 
 // Dreamwalker feat
@@ -472,7 +689,7 @@ FeatsList["dreamwalker"] = {
 	name : "Dreamwalker",
 	source : [["BOS", 10]],
 	descriptionFull : "Either through training or unknown reasons, you are able to walk between reality and dreams. You gain the following benefit:\n During a long rest, you can enter the Ethereal Plane as an astral projection of yourself. While on this plane, you can see when a creature is dreaming by seeing a near transparent sphere that deforms the fabric of the plane like water refracting light around its head. You can choose to peer into the dream or enter it for a number of minutes equal to five times your proficiency bonus. Once you've peered on enter into a creature's dream, you can't peer again into this creature's dreams until your next long rest.\n If you chose to enter the dream, you may interact with it however you choose and you can also communicate with the dreamer. When the dreamer wakes up, it can make an Insight check against your spell save DC or against a Deception or Persuasion check, your choice, to acknowledge that its dream has been meddled with.\n The DM may choose to not make a roll or give advantage or even disadvantage on the roll depending on the situation and the complexity of the dream. Inserting yourself in a dream has a chance of failure depending on your relationship with the creature. When you enter a dream, the DM rolls d100 and consults the table following.\n\n Relationship    Failure    Success\nFamily Member   \u2013     01-100\nClose Friend    01-10      11-100\nFriend          01-20      21-100\nTrusted Ally    01-30      31-100\nAcquaintance    01-40      41-100\nStranger        01-50      51-100\n\nAny damage you take while on the Ethereal Plane through this feat is also inflicted on your physical body. You die in your sleep if you are killed while on the Ethereal Plane.\n Resting while Dreamwalking isn't as recovering as a normal. At the end of a long rest where you dreamwalked, you do not recover lost Hit Points, though you still regain all Hit Dice normally gained through a long rest. You can spend one or more Hit Dice at the end of the long rest to regain Hit points.",
-	description : "As a part of a Long Rest, I can enter the dreams of other creatures via the Ethereal Plane, and can choose to interact with said creature in their dreams, for up to five times my proficiency bonus per day. Any damage carries over to my waking body, and I do not restore damage to my Hit Points upon waking, though I do recover my Hit Dice normally, and can spend them to recover afterwards.",
+	description : "During a Long Rest: enter the dreams of other creatures via the Ethereal Plane, can interact with said creature in their dreams, for up to 5\u00D7 prof. bonus per day. Damage carries over to waking body, don't restore damage to HP upon waking, recover my HD normally, and can spend them to recover HP afterwards.",
 };
 
 // Revised Feats
