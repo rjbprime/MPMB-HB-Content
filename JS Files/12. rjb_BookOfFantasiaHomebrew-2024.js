@@ -1,0 +1,1211 @@
+var iFileName = "rjb_BookOfFantasiaHomebrew-2024.js";
+RequiredSheetVersion("13.2.3");
+
+//	Define the source
+SourceList["BOF"] = {
+	name : "Book of Fantasia [House Rules and Homebrew]",
+	abbreviation : "BOF",
+	group : "Personal Campaign House Rules",
+	campaignSetting : "Book of Fantasia",
+	date : "2025/09/20"
+};
+
+//	a function to calculate the point buy value of a stat
+function ASCalcPointBuy(theScore) {
+	theScore = parseFloat(theScore.replace(",","."));
+	if (isNaN(theScore) || theScore <= 8) {
+		var toReturn = 0;
+	} else  {
+		var toReturn = theScore - 8;
+		if (theScore > 13) toReturn += theScore - 13;
+		if (theScore > 17) toReturn += theScore - 17;
+	}
+	return toReturn.toFixed(0);
+}
+
+//	New Races
+
+/*	Subset of (sub)Race not in SRD
+	url of full content						:	https://www.dndbeyond.com/races/135726-kara-turan-hengeyokai
+	submitted by							:	Benz74M
+	accessed								:	2023/03/15 19:30 GMT+10:00
+	version accessed						:	2.5
+	backup of content at point of access	:	https://raw.githack.com/rjbprime/MPMB-HB-Content/3d80db99b62cf198863b439d637d444a7182173d/DDB%20Backup%20PDFs/The%20Kara-Turan%20Hengeyokai%20Race%20for%20Dungeons%20&%20Dragons%20(D&D)%20Fifth%20Edition%20(5e)%20-%20D&D%20Beyond.pdf
+	Modifications							:	Removed (K/k)ara-turan from (sub)races
+
+*/
+
+RaceList["hengeyokai"] = {
+	regExpSearch : /hengeyokai/i,
+	name : "Hengeyokai",
+	sortname : "Hengeyokai",
+	source : [["BOF", 7]],
+	plural : "Hengeyokai",
+	size : 3,
+	speed : {
+		walk : { spd : 30, enc : 20 }
+	},
+	languageProfs : ["Common", 2],
+	age : "  can live for over 200 years, but for the first century they exist only as animals and cannot assume another form",
+	height : " range from barely 5 to well over 6 feet tall (4'8\" + 2d10\")",
+	weight : " weigh around 165 lb (110 + 2d10 \xD7 2d4 lb)",
+	heightMetric : " range from barely 1,5 to well over 1,8 metres tall (145 + 5d10 cm)",
+	weightMetric : " weigh around 75 kg (50 + 5d10 \xD7 4d4 / 10 kg)",
+	trait : "Hengeyokai (+2 Dexterity, my creature type is fey and humanoid)"+
+		"\n \u2022 Hybrid Nature: I'm a shapechanger with two creature types: fey and humanoid. I can be affected by a game effect if it works on either of my creature types no matter my current form."+
+		"\n \u2022 Animal Form: I chose an animal form for my hengeyokai: badger, cat, crab, dog (mastiff), hare (weasel stats block, speed 40), monkey, rat, or sparrow.\n\t My chosen animal grants me an ability score increase at first level or another benefit: The sparrow grants no other benefit than the flying speed gained in animal form.\n\t I can transform as an action and stay in my beast shape indefinitely. I can revert to my hybrid or human form by using a bonus action on my turn. I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die. See the druid's Wild Shape feature for the rules that apply while I am transformed."+
+		"\n \u2022 Hybrid Form: I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.\n In my hybrid form, I stand at my human height on my hind legs or similar appendages. I assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain my animalistic appearance, including fur, scales, feathers, tails, and other characteristics. At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.\n While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.\n I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
+	features : {
+		"animal form" : {
+			name : "Animal Form",
+			minlevel : 1,
+			usages : "Proficiency bonus per ",
+			action : [["action", ""]],
+			usagescalc : "event.value = How('Proficiency Bonus');",
+			recovery: "short rest"
+		},
+		"hybrid form" : {
+			name : "Hybrid Form",
+			minlevel : 1,
+			usages : "Proficiency bonus per ",
+			action : [["action", ""]],
+			usagescalc : "event.value = How('Proficiency Bonus');",
+			recovery: "short rest"
+		}
+	},
+	toNotesPage : [{
+		name : "Animal Form",
+		source : [["BOF", 6]],
+		popupName : "Hengeyokai Animal Form Features",
+		page3notes : true,
+		note : [
+			"\u2022 Assume Animal Form",
+			" I can transform as an action and stay in my beast shape indefinitely.",
+			" I can revert to my hybrid or human form by using a bonus action on my turn.",
+			" I automatically revert to my human form if I fall unconscious, drop to 0 hit points, or die.",
+			" See the druid's Wild Shape feature for the rules that apply while I am transformed",
+			"\u2022 Animal Selection",
+			" I select my animal form in the Wild Shape page."
+		]
+	},
+	{
+		name : "Hybrid Form",
+		source : [["BOF", 6]],
+		popupName : "Hengeyokai Hybrid Form Features",
+		page3notes : true,
+		note : [
+			"\u2022 Assume Hybrid Form",
+			" I can assume my hybrid form as an action. In my animal form, I can shapechange into my hybrid form as a bonus action.",
+			" In my hybrid form, I stand at my human height on my hind legs or similar appendages. I assume an overall humanoid shape, with front paws or wings changing into hands that are capable of gripping and using weapons and other equipment, but retain my animalistic appearance, including fur, scales, feathers, tails, and other characteristics.",
+			" At the DM's option, my hybrid form may have a natural weapon (e.g. claws, beak, bite) that deals 1d6 bludgeoning, piercing, or slashing damage as appropriate to the animal's natural weapon. I am proficient with my natural weapon.",
+			" While in my hybrid form, I can speak with animals (as per the spell). This is a nonmagical ability.",
+			" I can stay in my hybrid form indefinitely. I can revert to my animal or human form by using a bonus action on my turn. I revert to my human form if I fall unconscious, drop to 0 hit points, or die."
+		]
+	}]
+};
+
+AddRacialVariant("hengeyokai", "badger", {
+	regExpSearch : /badger/i,
+	name : "Badger Hengeyokai",
+	trait : "Badger Hengeyokai (+2 Dexterity, +1 Constitution" + desc([
+		"Badger Animal Form"
+	]),
+	scores : [0, 2, 1, 0, 0, 0]
+});
+
+AddRacialVariant("hengeyokai", "cat", {
+	regExpSearch : /cat/i,
+	name : "Cat Hengeyokai",
+	trait : "Cat Hengeyokai (+2 Dexterity, +1 Charisma" + desc([
+		"Cat Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 1]
+});
+
+AddRacialVariant("hengeyokai", "crab", {
+	regExpSearch : /crab/i,
+	name : "Crab Hengeyokai",
+	trait : "Crab Hengeyokai (+2 Dexterity, 20ft Swim speed" + desc([
+		"Crab Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 0],
+	speed : {
+		swim : { spd : 20, enc : 10 }
+	}
+});
+
+AddRacialVariant("hengeyokai", "dog (mastiff)", {
+	regExpSearch : /dog/i,
+	name : "Dog (Mastiff) Hengeyokai",
+	trait : "Dog (Mastiff) Hengeyokai (+2 Dexterity, +1 Strength" + desc([
+		"Mastiff Animal Form"
+	]),
+	scores : [1, 2, 0, 0, 0, 0]
+});
+
+AddRacialVariant("hengeyokai", "hare", {
+	regExpSearch : /hare/i,
+	name : "Hare Hengeyokai",
+	trait : "Hare Hengeyokai (+2 Dexterity, +1 Wisdom" + desc([
+		"Hare Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 1, 0],
+	speed : {
+		walk : { spd : 40, enc : 30 }
+	}
+});
+
+AddRacialVariant("hengeyokai", "monkey", {
+	regExpSearch : /monkey/i,
+	name : "Monkey Hengeyokai",
+	trait : "Monkey Hengeyokai (+2 Dexterity, 20ft Climb Speed" + desc([
+		"Monkey Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 0],
+	speed : {
+		climb : { spd : 20, enc : 10 }
+	}
+});
+
+AddRacialVariant("hengeyokai", "rat", {
+	regExpSearch : /rat/i,
+	name : "Rat Hengeyokai",
+	trait : "Rat Hengeyokai (+2 Dexterity, Advantage Wisdom (Perception) checks that rely on smell" + desc([
+		"Rat Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 0]
+});
+
+AddRacialVariant("hengeyokai", "sparrow", {
+	regExpSearch : /sparrow/i,
+	name : "Sparrow Hengeyokai",
+	trait : "Sparrow Hengeyokai (+2 Dexterity, Fly speed in animal form" + desc([
+		"Sparrow Animal Form"
+	]),
+	scores : [0, 2, 0, 0, 0, 0]
+});
+
+// Revised Races
+
+RaceList["harengon-bof"] = {
+	regExpSearch : /harengon/i,
+	name : "Harengon",
+	source : [["BOF", 7]],
+	plural : "Harengons",
+	size : [3, 4],
+	speed : {
+		walk : { spd : 30, enc : 20 },
+	},
+	weaponProfs : [!1, !1, ["scimitar", "double-bladed scimitar", "longbow", "shortbow"]],
+	skills : ["Perception"],
+	addMod : [{ type : "skill", field : "Init", mod : "Prof", text : "I can add my proficiency bonus to my initiative rolls." }],
+	scoresGeneric : true,
+	action : [["reaction", "Lucky Footwork"], ["bonus action", "Rabbit Hop"]],
+	features : {
+		"rabbit hop" : {
+			name : "Rabbit Hop",
+			minlevel : 1,
+			usages : "Proficiency bonus per ",
+			usagescalc : "event.value = How('Proficiency Bonus');",
+			recovery : "short rest",
+			additional : ProficiencyBonusList.map(function(n) {
+				var hopDistance = n * 5 + ' ft';
+				return What("Unit System") === "metric" ? ConvertToMetric(hopDistance) : hopDistance;
+			})
+		}
+	},
+	trait : "Harengon"+
+		"\n \u2022 Hare-Trigger: I can add my proficiency bonus to my initiative rolls."+
+		"\n \u2022 Leporine Senses: I have proficiency in the Perception skill."+
+		"\n \u2022 Lucky Footwork: As a reaction when I fail a Dexterity saving throw, I can add +1d4 to the result, potentially making it a success. I can't do this if I'm prone or my speed is 0."+
+		"\n \u2022 Rabbit Hop: As a bonus action if my speed isn't 0, I can jump 5 ft times my Prof Bonus without provoking opportunity attacks. I can do this my Prof Bonus times per short rest."
+};
+
+//	New Creatures
+
+/*	Common Perching Bird
+	url of full content						:	https://www.dndbeyond.com/monsters/67144-common-perching-bird
+	submitted by							:	Benz74M
+	accessed								:	2023/03/15 19:30 GMT+10:00
+	version accessed						:	2.5
+	backup of content at point of access	:	https://raw.githack.com/rjbprime/MPMB-HB-Content/3d80db99b62cf198863b439d637d444a7182173d/DDB%20Backup%20PDFs/Common%20Perching%20Bird%20-%20Monsters%20-%20Homebrew%20-%20D&D%20Beyond.pdf
+	Modifications							:	Changed referrences of "(C/c)ommon (P/p)erching (B/b)ird" to "(S/s)parrow"
+*/
+
+CreatureList["sparrow"] = {
+	name : "Sparrow",
+	source : ["BOF", 8],
+	size : 5,
+	type : "Beast",
+	alignment : "Unaligned",
+	ac : 12,
+	hp : 1,
+	hd : [1, 4],
+	speed : "5 ft, fly 50 ft",
+	proficiencyBonus : 2,
+	proficiencyBonusLinked : true,
+	challengeRating : "0",
+	scores : [1, 14, 8, 2, 10, 6],
+	savesLinked : true,
+	senses : "",
+	attacksAction : 1,
+	attacks : [{
+		name : "Peck",
+		ability : 2,
+		damage : [0, 0, "piercing"],
+		range : "Melee (5 ft)",
+		description : "(minor annoyance). 1 piercing damage on a critical hit."
+	}],
+	skills : {
+		"Perception" : 3,
+		"Stealth" : 3
+	},
+	features : [{
+		"tiny critter" : {
+			name : "Tiny Critter",
+			description : "Because of its tiny size and unpredictable maneuverability, creatures have disadvantage on ranged attacks against the sparrow while it's flying if the bird is more than 60 feet away.",
+			joinString : "\n   "
+		},
+		"fooled by illusions" : {
+			name : "Fooled by Illusions",
+			description : "The sparrow has disadvantage on saving throws or ability checks made to perceive illusions (including invisible objects or creatures) and transparent windows.",
+			joinString : "\n   "
+		}
+	}],
+	traits : [{
+		name : "Keen Sight",
+		description : "The sparrow has advantage on Wisdom (Perception) checks that rely on sight."
+	}],
+};
+
+/*	Monkey
+	url of full content						:	https://www.dndbeyond.com/monsters/296670-monkey
+	submitted by							:	Benz74M
+	accessed								:	2023/03/15 19:30 GMT+10:00
+	version accessed						:	2.5
+	backup of content at point of access	:	https://raw.githack.com/rjbprime/MPMB-HB-Content/3d80db99b62cf198863b439d637d444a7182173d/DDB%20Backup%20PDFs/Monkey%20-%20Monsters%20-%20Homebrew%20-%20D&D%20Beyond.pdf
+	Modifications							:	None
+*/
+
+CreatureList["monkey"] = {
+	name : "Monkey",
+	source : ["BOF", 8],
+	size : 5,
+	type : "Beast",
+	alignment : "Unaligned",
+	ac : 12,
+	hp : 3,
+	hd : [1, 4],
+	speed : "30 ft, climb 30 ft",
+	scores : [8, 14, 12, 5, 12, 7],
+	senses : "",
+	passivePerception : 11,
+	challengeRating : "0",
+	proficiencyBonus : 2,
+	attacksAction : 1,
+	attacks : [{
+		name : "Bite",
+		ability : 1,
+		damage : [1, 4, "piercing"],
+		range : "Melee (5 ft)",
+		description : ""
+	},
+	{
+		name : "Fling Feces (3/day)",
+		ability : 1,
+		damage : [0, 0, "psychic"],
+		range : "15/30 ft",
+		description : "The target must succeed on a DC 12 Intelligence saving throw. On a failed save, the target must use its movement to move 10 feet away from the monkey at the start of its next turn. The monkey flings feces if cornered, frightened or in captivity."
+	}],
+	skills : {
+		"Athletics" : 6,
+		"Perception" : 3,
+		"Sleight of Hand" : 6
+	},
+	features : [{
+		"nimble escape" : {
+			name : "Nimble Escape",
+			description : "The monkey can take the Disengage or Hide action as a bonus action on each of its turns.",
+			joinString : "\n   "
+		}
+	}],
+	traits : [{
+		name : "Keen Hearing",
+		description : "The monkey has advantage on Wisdom (Perception) checks that rely on hearing."
+	}],
+};
+
+/*	Weasel
+	url of full content						:	https://www.dndbeyond.com/monsters/17052-weasel
+	submitted by							:	WotC
+	accessed								:	2023/03/15 19:30 GMT+10:00
+	version accessed						:	2023/03/15 19:30 GMT+10:00
+	backup of content at point of access	:	https://raw.githack.com/rjbprime/MPMB-HB-Content/e913e1a55012fd4ee02f1555b24ed4bfcee48467/DDB%20Backup%20PDFs/Weasel%20-%20Monsters%20-%20D&D%20Beyond.pdf
+	Modifications							:	Changed name to Hare, Changed Speed to 40ft
+*/
+
+CreatureList["hare"] = {
+	name : "Hare",
+	source : [["BOF", 8]],
+	size : 5, //Tiny
+	type : "Beast",
+	companion : "familiar",
+	alignment : "Unaligned",
+	ac : 13,
+	hp : 1,
+	hd : [1, 4],
+	speed : "40 ft",
+	scores : [3, 16, 8, 2, 12, 3],
+	skills : {
+		"perception" : 3,
+		"stealth" : 5
+	},
+	senses : "Adv. on Wis (Perception) checks using hearing/smell",
+	passivePerception : 13,
+	challengeRating : "0",
+	proficiencyBonus : 2,
+	attacksAction : 1,
+	attacks : [{
+		name : "Bite",
+		ability : 2,
+		damage : [1, "", "piercing"],
+		range : "Melee (5 ft)",
+		description : "",
+		abilitytodamage : false
+	}],
+	traits : [{
+		name : "Keen Hearing and Smell",
+		description : "The weasel has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+	}]
+};
+
+// Class Revisions
+
+// Add Fighter (Brute)
+
+var UATS_fighterBruteSubclassUA = AddSubClass("fighter", "brute-ua", {
+	regExpSearch : /brute/i,
+	subname : "Brute",
+	source : [["BOF", 7]],
+	fullname : "Brute",
+	features : {
+		"subclassfeature3" : {
+			name : "Brute Force",
+			source : [["BOF", 2]],
+			minlevel : 3,
+			description : "\n   " + "I do additional damage with weapons that I'm proficient with",
+			additional : levels.map(function (n) {
+				return n < 3 ? "" : "+1d" + (n < 10 ? 4 : n < 16 ? 6 : n < 20 ? 8 : 10) + " weapon damage";
+			}),
+			calcChanges : {
+				atkAdd : [
+					function (fields, v) {
+						if (classes.known.fighter && classes.known.fighter.level > 2 && !v.isSpell && !v.isNaturalWeapon && fields.Proficiency) {
+							fields.Description += (fields.Description ? '; ' : '') + '+1d' + (classes.known.fighter.level < 10 ? 4 : classes.known.fighter.level < 16 ? 6 : classes.known.fighter.level < 20 ? 8 : 10) + ' damage';
+						};
+					},
+					"I do +1d4 damage with weapons that I'm proficient with. This increases to 1d6 at 10th level, 1d8 at 16th level, and 1d10 at 20th level."
+				]
+			}
+		},
+		"subclassfeature7" : {
+			name : "Brutish Durability",
+			source : [["BOF", 2]],
+			minlevel : 7,
+			description : desc([
+				"I add +1d6 to all my saving throws, including death saves",
+				"If the total of a death save is 20 or more, it counts as rolling a 20"
+			]),
+			savetxt : { text : ["Add 1d6 to all saves"] }
+		},
+		"subclassfeature15" : {
+			name : "Devastating Critical",
+			source : [["BOF", 2]],
+			minlevel : 15,
+			description : "\n   " + "Whenever I score a critical hit with a weapon, I add my fighter level to the damage",
+			additional : levels.map(function (n) { return n < 15 ? "" : "+" + n + " damage on crit"; })
+		},
+		"subclassfeature18" : {
+			name : "Survivor",
+			source : [["BOF", 2]],
+			minlevel : 18,
+			description : desc([
+				"If I have less than half my max HP at the start of my turn, I heal myself",
+				"I regain HP equal to 5 + Constitution modifier (min 1); This doesn't work if I'm at 0 HP"
+			])
+		}
+	}
+});
+RunFunctionAtEnd(function () {
+	var FSfea = newObj(ClassList.fighter.features["fighting style"]);
+	FSfea.name = "Additional Fighting Style";
+	FSfea.source = ["BOF", 2];
+	FSfea.minlevel = 10;
+	FSfea.extrachoices = "";
+	FSfea.description = '\n   Choose an Additional Fighting Style using the "Choose Feature" button above ';
+	ClassSubList[UATS_fighterBruteSubclassUA].features.subclassfeature10 = FSfea;
+});
+
+// New Maneuver options
+AddFeatureChoice(ClassSubList["fighter-battle master"].features["subclassfeature3"], true, "Strike Beyond", {
+	name : "Strike Beyond",
+	source : [["BOF", 7]],
+	description : desc([
+		"I can throw aside all concern for defense to attack an enemy just beyond my reach. When I make my first attack roll on my turn, I can decide to expend one Superiority Die to attack recklessly. ",
+		"I then roll that die, and add it to the damage roll. Doing so extends my reach by 5 ft, until the start of my next turn, but attack rolls against me have Advantage during that time. ",
+		"I can't do this if I'm incapacitated"
+	])
+});
+
+// Monk Revisions
+
+ClassList["monk"]["die"] = 10;
+
+// Paladin Revision
+
+ClassList["paladin"]["die"] = 12;
+
+// New Fighting Style
+AddFightingStyle(["fighter", "ranger", "paladin"], "Mariner", { // Still valid 2021-09-21
+	name : "Mariner Fighting Style",
+	source : [["BOF", 7]],
+	description : "\n   " + "While not wearing heavy armor or using a shield, I gain +1 AC and swim/climb speed" + "\n   " + "The swimming and climbing speeds are equal to my current walking speed",
+	speed : {
+		climb : { spd : "walk", enc : "walk" },
+		swim : { spd : "walk", enc : "walk" }
+	},
+	extraAC : {
+		mod : 1,
+		text : "I gain a +1 bonus to AC while I'm not wearing heavy armor and not using a shield.",
+		stopeval : function (v) { return v.heavyArmor || v.usingShield; }
+	}
+});
+AddFightingStyle(["fighter", "ranger", "paladin"], "Close Quarters Shooter", { // Still valid 2021-09-21
+	name : "Close Quarters Shooting Fighting Style",
+	source : [["BOF", 7]],
+	description:"\n   " + "+1 bonus to attack rolls I make with ranged attacks" + "\n   " + "I don't have disadvantage when making a ranged attack while within 5 ft of a hostile target" + "\n   " + "My ranged attacks ignore half and three-quarters cover against targets within 30 ft",
+	calcChanges : {
+		atkCalc : [
+			function (fields, v, output) {
+				if (v.isRangedWeapon) output.extraHit += 1;
+			},
+			"My ranged weapons get a +1 bonus on the To Hit, no Disadvantage within 5 ft of hostile target, ignore 1/2 and 3/4 cover."
+		]
+	}
+});
+AddFightingStyle(["fighter", "ranger", "paladin"], "Tunnel Fighter", { // Still valid 2021-09-21
+	name : "Tunnel Fighting Style",
+	source : [["BOF", 7]],
+	description : "\n   " + "As a bonus action, I enter a defensive stance that lasts until the start of my next turn" + "\n   " + "While I'm in this defensive stance I gain the following two benefits:" + "\n    - " + "I can make opportunity attacks without using my reaction" + "\n    - " + "I can make a melee attack as a reaction if a hostile moves >5 ft while in my reach",
+	action : [["bonus action", ""]]
+});
+
+//New General Feats
+
+FeatsList["martial adept 2024"] = {
+	name : "Martial Adept 2024",
+	source : [["BOF", 8]],
+	descriptionFull : "You have martial training that allows you to perform special combat maneuvers. You gain the following benefits:\n \u2022 You learn two maneuvers of your choice from among those available to the Battle Master archetype in the fighter class. If a maneuver you use requires your target to make a saving throw to resist the maneuver's effects, the saving throw DC equals 8 + your proficiency bonus + your Strength or Dexterity modifier (your choice).\n \u2022 You gain one superiority die, which is a d6 (this die is added to any superiority dice you have from another source). This die is used to fuel your maneuvers. A superiority die is expended when you use it. You regain your expended superiority dice when you finish a short or long rest.",
+	description : "",
+	calculate : "event.value = 'I learn two maneuvers of my choice from those available to the Battle Master (2nd page \"Choose Feature\" button). The saving throw DC for this is ' + (8 + Number(How('Proficiency Bonus')) + Math.max(Number(What('Str Mod')), Number(What('Dex Mod')))) + ' (8 + proficiency bonus + Str/Dex mod). I gain one superiority die (d6), which I regain when I finish a short rest.';",
+	bonusClassExtrachoices : [{
+		"class" : "fighter",
+		"subclass" : "fighter-battle master",
+		"feature" : "subclassfeature3",
+		"bonus" : 2
+	}],
+	extraLimitedFeatures : [{
+		name : "Combat Superiority",
+		usages : 1,
+		additional : 'd6',
+		recovery : "short rest",
+		addToExisting : true
+	}]
+};
+
+FeatsList["fighting style"] = {
+  name: "Fighting Style",
+  source: [["P24", 209],["BOF", 8]],
+  regExpSearch: /^(?=.*fighting)(?=.*style).*$/i,
+  descriptionFull: "Choose a Fighting Style.",
+  description: "Choose a Fighting Style.",
+  choices: ["Fighting Style [Archery]", "Fighting Style [Blind Fighting]", "Fighting Style [Defense]", "Fighting Style [Dueling]", "Fighting Style [Great Weapon Fighting]", "Fighting Style [Interception]", "Fighting Style [Protection]", "Fighting Style [Thrown Weapon Fighting]", "Fighting Style [Two-Weapon Fighting]", "Fighting Style [Unarmed Fighting]","Fighting Style [Close Quarters Shooting]", "Fighting Style [Mariner]", "Fighting Style [Tunnel Fighter]"],
+  "fighting style [archery]": {
+    name: "Fighting Style [Archery]",
+    description: "I gain a +2 bonus to attack rolls I make with Ranged weapons.",    
+    calcChanges: {
+      atkCalc: [
+        function (fields, v, output) {
+          if (v.isRangedWeapon && !v.isNaturalWeapon && !v.isDC) output.extraHit += 2;
+        },
+        "My ranged weapons get a +2 bonus on the To Hit."
+      ]
+    }
+  },
+  "fighting style [blind fighting]": {
+    name: "Fighting Style [Blind Fighting]",
+    description: "I have Blindsight with a range of 10 feet.",    
+    vision: [["Blindsight", 10]],
+  },
+  "fighting style [defense]": {
+    name: "Fighting Style [Defense]",
+    description: "While I'm wearing Light, Medium, or Heavy armor, I gain a +1 bonus to Armor Class.",    
+    extraAC: {
+      name: "Defense Fighting Style", // necessary for features referring to fighting style properties directly
+      mod: 1,
+      text: "I gain a +1 bonus to AC while wearing armor.",
+      stopeval: function (v) {
+        return !v.wearingArmor;
+      }
+    },
+  },
+  "fighting style [dueling]": {
+    name: "Fighting Style [Dueling]",
+    description: "When I'm holding a Melee weapon in one hand and no other weapons, I gain a +2 bonus to damage rolls with that weapon.",    
+    calcChanges: {
+      atkCalc: [
+        function (fields, v, output) {
+          for (var i = 1; i <= FieldNumbers.actions; i++) {
+            if ((/off.hand.attack/i).test(What('Bonus Action ' + i))) return;
+          }
+          if (v.isMeleeWeapon && !v.isNaturalWeapon && !(/((^|[^+-]\b)2|\btwo).?hand(ed)?s?\b/i).test(fields.Description)) output.extraDmg += 2;
+        },
+        "When I'm wielding a melee weapon in one hand and no weapon in my other hand, I do +2 damage with that melee weapon. This condition will always be false if the bonus action 'Off-hand Attack' exists."
+      ]
+    }
+  },
+  "fighting style [great weapon fighting]": {
+    name: "Fighting Style [Great Weapon Fighting]",
+    description: "When I roll damage for an attack I make with a Melee weapon that I am holding with two hands, I can treat any 1 or 2 on a damage die as a 3. The weapon must have the Two-Handed or Versatile properties to gain this benefit.",    
+    calcChanges: {
+      atkAdd: [
+        function (fields, v) {
+          if (v.isMeleeWeapon && (/(\bversatile|((^|[^+-]\b)2|\btwo).?hand(ed)?s?)\b/i).test(fields.Description)) {
+            fields.Description += (fields.Description ? '; ' : '') + 'treat rolls of 1 or 2 on the damage die as a 3' + ((/versatile/i).test(fields.Description) ? ' when two-handed' : '');
+          }
+        },
+        "While wielding a two-handed or versatile melee weapon in two hands, I can treat a roll of 1 or 2 on any damage die as a 3."
+      ]
+    },
+  },
+  "fighting style [interception]": {
+    name: "Fighting Style [Interception]",
+    description: "When a creature I can see hits another creature within 5 feet of me with an attack roll, I can take a Reaction to reduce the damage dealt to the target by 1d10 plus my Proficiency Bonus. I must be holding a Shield or a Simple or Martial weapon to use this Reaction.",    
+    action: "reaction",
+  },
+  "fighting style [protection]": {
+    name: "Fighting Style [Protection]",
+    description: "When a creature I can see attacks a target other than me that is within 5 feet of me, I can take a Reaction to interpose my Shield if I'm holding one. I impose Disadvantage on the triggering attack roll and all other attack rolls against the target until the start of my next turn if I remain within 5 feet of the target.",    
+    action: "reaction",
+  },
+  "fighting style [thrown weapon fighting]": {
+    name: "Fighting Style [Thrown Weapon Fighting]",
+    description: "When I hit with a ranged attack roll using a weapon that has the Thrown property, I gain a +2 bonus to the damage roll.",    
+    calcChanges: {
+      atkAdd: [
+        function (fields, v) {
+          if (v.isThrownWeapon && v.isMeleeWeapon) {
+            fields.Description += (fields.Description ? '; ' : '') + '+2 damage when thrown';
+          }
+        },
+        "I deal +2 damage when I hit a ranged attack made with a thrown weapon."
+      ],
+      atkCalc: [
+        function (fields, v, output) {
+          if (v.isThrownWeapon && !v.isMeleeWeapon) {
+            output.extraDmg += 2;
+          }
+        },
+        ""
+      ],
+    },
+  },
+  "fighting style [two-weapon fighting]": {
+    name: "Fighting Style [Two-Weapon Fighting]",
+    description: "When I make an extra attack as a result of using a weapon that has the Light property, I can add my ability modifier to the damage to that attack if I am not already adding it to the damage.",    
+    calcChanges: {
+      atkCalc: [
+        function (fields, v, output) {
+          if (v.isOffHand) output.modToDmg = true;
+        },
+        "When engaging in two-weapon fighting, I can add my ability modifier to the damage of my off-hand attacks. If a melee weapon includes 'off-hand' or 'secondary' in its name or description, it is considered an off-hand attack."
+      ]
+    },
+  },
+  "fighting style [unarmed fighting]": {
+    name: "Fighting Style [Unarmed Fighting]",
+    description: "When I hit with my Unarmed Strike and deal damage, I can deal Bludgeoning damage equal to 1d6 plus my Strength modifier instead of the normal damage of an Unarmed Strike. If I am not holding any weapons or a Shield when I make the attack roll, the d6 becomes a d8.\n At the start of each of my turns, I can deal 1d4 Bludgeoning damage to one creature Grappled by me.",    
+    calcChanges: {
+      atkAdd: [
+        function (fields, v) {
+          if (v.baseWeaponName == "unarmed strike") {
+            if (fields.Damage_Die == 1 || fields.Damage_Die == "1d4") fields.Damage_Die = '1d6';
+            fields.Description += (fields.Description ? '; ' : '') + 'Versatile (d8)';
+          }
+        },
+        "My unarmed strikes deal 1d6 damage instead of 1, which increases to 1d8 if I have both hands free to make an unarmed strike with.",
+        1
+      ]
+    },
+  },
+  "fighting style [close quarters shooting]": {
+    name: "Fighting Style [Close Quarters Shooting ]",
+    description:"\n   " + "+1 bonus to attack rolls I make with ranged attacks" + "\n   " + "I don't have disadvantage when making a ranged attack while within 5 ft of a hostile target" + "\n   " + "My ranged attacks ignore half and three-quarters cover against targets within 30 ft",
+    calcChanges: {
+      atkCalc: [
+        function (fields, v, output) {
+          if (v.isRangedWeapon && !v.isNaturalWeapon && !v.isDC) output.extraHit += 1;
+        },
+        "My ranged weapons get a +1 bonus on the To Hit, no Disadvantage within 5 ft of hostile target, ignore 1/2 and 3/4 cover."
+      ]
+    }
+  },
+    "fighting style [mariner]": {
+    name: "Fighting Style [Mariner ]",
+	description : "\n   " + "While not wearing heavy armor or using a shield, I gain +1 AC and swim/climb speed" + "\n   " + "The swimming and climbing speeds are equal to my current walking speed",
+	speed : {
+		climb : { spd : "walk", enc : "walk" },
+		swim : { spd : "walk", enc : "walk" }
+	},
+	extraAC : {
+		mod : 1,
+		text : "I gain a +1 bonus to AC while I'm not wearing heavy armor and not using a shield.",
+		stopeval : function (v) { return v.heavyArmor || v.usingShield; }
+	}
+  },
+  "fighting style [tunnel fighter]": {
+    name: "Fighting Style [Tunnel Fighter]",
+	description : "\n   " + "As a bonus action, I enter a defensive stance that lasts until the start of my next turn" + "\n   " + "While I'm in this defensive stance I gain the following two benefits:" + "\n    - " + "I can make opportunity attacks without using my reaction" + "\n    - " + "I can make a melee attack as a reaction if a hostile moves >5 ft while in my reach",
+	action : [["bonus action", ""]]
+  },
+  allowDuplicates: true,
+};
+
+FeatsList["weapon master"] = {
+  name: "Weapon Master",
+  source: [["P24", 209],["BOF", 8]],
+  regExpSearch: /^(?=.*weapon)(?=.*master).*$/i,
+  scorestxt: "My Strength or Dexterity score increases by 1, to a maximum of 20.",
+  description: "+1 Str/Dex, Gain Weapon Mastery in one weapon of choice. can change choice during a long rest provided I have the appropriate proficiencies.",
+  descriptionFull: desc([
+	"You gain the following benefits",
+	"Ability Score Increase : Increase your Strength or Dexterity score by 1, to a maximum of 20.",
+	"Mastery Property : Your training with weapons allows you to use the mastery property of one kind of Simple or Martial weapon of your choice, provided you have proficiency with it. Whenever you finish a Long Rest, you can change the kind of weapon to another kind.",
+  ]),
+  choices: ["Weapon Master (Club)", "Weapon Master (Dagger)", "Weapon Master (Greatclub)", "Weapon Master (Handaxe)", "Weapon Master (Javelin)", "Weapon Master (Light Hammer)", "Weapon Master (Mace)", "Weapon Master (Quarterstaff)", "Weapon Master (Sickle)", "Weapon Master (Spear)", "Weapon Master (Dart)", "Weapon Master (Light Crossbow)", "Weapon Master (Shortbow)", "Weapon Master (Sling)", "Weapon Master (Battleaxe)", "Weapon Master (Flail)", "Weapon Master (Glaive)", "Weapon Master (Greataxe)", "Weapon Master (Greatsword)", "Weapon Master (Halberd)", "Weapon Master (Lance)", "Weapon Master (Longsword)", "Weapon Master (Maul)", "Weapon Master (Morningstar)", "Weapon Master (Pike)", "Weapon Master (Rapier)", "Weapon Master (Scimitar)", "Weapon Master (Shortsword)", "Weapon Master (Trident)", "Weapon Master (Warhammer)", "Weapon Master (War Pick)", "Weapon Master (Whip)", "Weapon Master (Blowgun)", "Weapon Master (Hand Crossbow)", "Weapon Master (Heavy Crossbow)", "Weapon Master (Longbow)", "Weapon Master (Musket)", "Weapon Master (Pistol)"],
+  "weapon master (club)": {
+    name: "Weapon Master (Club)",
+    description: "I gain access to the Club's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
+    prerequisite: "Club Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("club") !== -1;
+    },
+  },
+  "weapon master (dagger)": {
+    name: "Weapon Master (Dagger)",
+    description: "I gain access to the Dagger's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
+    prerequisite: "Dagger Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("dagger") !== -1;
+    },
+  },
+  "weapon master (greatclub)": {
+    name: "Weapon Master (Greatclub)",
+    description: "I gain access to the Greatclub's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
+    prerequisite: "Greatclub Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("greatclub") !== -1;
+    },
+  },
+  "weapon master (handaxe)": {
+    name: "Weapon Master (Handaxe)",
+    description: "I gain access to the Handaxe's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Handaxe Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("handaxe") !== -1;
+    },
+  },
+  "weapon master (javelin)": {
+    name: "Weapon Master (Javelin)",
+    description: "I gain access to the Javelin's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
+    prerequisite: "Javelin Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("javelin") !== -1;
+    },
+  },
+  "weapon master (light hammer)": {
+    name: "Weapon Master (Light Hammer)",
+    description: "I gain access to the Light Hammer's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
+    prerequisite: "Light Hammer Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("light hammer") !== -1;
+    },
+  },
+  "weapon master (mace)": {
+    name: "Weapon Master (Mace)",
+    description: "I gain access to the Mace's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
+    prerequisite: "Mace Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("mace") !== -1;
+    },
+  },
+  "weapon master (quarterstaff)": {
+    name: "Weapon Master (Quarterstaff)",
+    description: "I gain access to the Quarterstaff's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
+    prerequisite: "Quarterstaff Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("quarterstaff") !== -1;
+    },
+  },
+  "weapon master (sickle)": {
+    name: "Weapon Master (Sickle)",
+    description: "I gain access to the Sickle's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
+    prerequisite: "Sickle Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("sickle") !== -1;
+    },
+  },
+  "weapon master (spear)": {
+    name: "Weapon Master (Spear)",
+    description: "I gain access to the Spear's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
+    prerequisite: "Spear Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("spear") !== -1;
+    },
+  },
+  "weapon master (dart)": {
+    name: "Weapon Master (Dart)",
+    description: "I gain access to the Dart's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Dart Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("dart") !== -1;
+    },
+  },
+  "weapon master (light crossbow)": {
+    name: "Weapon Master (Light Crossbow)",
+    description: "I gain access to the Light Crossbow's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
+    prerequisite: "Light Crossbow Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("light crossbow") !== -1;
+    },
+  },
+  "weapon master (shortbow)": {
+    name: "Weapon Master (Shortbow)",
+    description: "I gain access to the Shortbow's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Shortbow Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("shortbow") !== -1;
+    },
+  },
+  "weapon master (sling)": {
+    name: "Weapon Master (Sling)",
+    description: "I gain access to the Sling's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
+    prerequisite: "Sling Proficiency",
+    prereqeval: function (v) {
+      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("sling") !== -1;
+    },
+  },
+  "weapon master (battleaxe)": {
+    name: "Weapon Master (Battleaxe)",
+    description: "I gain access to the Battleaxe's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
+    prerequisite: "Battleaxe Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("battleaxe") !== -1;
+    },
+  },
+  "weapon master (flail)": {
+    name: "Weapon Master (Flail)",
+    description: "I gain access to the Flail's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
+    prerequisite: "Flail Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("flail") !== -1;
+    },
+  },
+  "weapon master (glaive)": {
+    name: "Weapon Master (Glaive)",
+    description: "I gain access to the Glaive's 'Graze' Mastery feature. Graze : If my attack roll with this weapon misses a creature, I can deal damage to that creature equal to the ability modifier I used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",    
+    prerequisite: "Glaive Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("glaive") !== -1;
+    },
+  },
+  "weapon master (greataxe)": {
+    name: "Weapon Master (Greataxe)",
+    description: "I gain access to the Greataxe's 'Cleave' Mastery feature. Cleave : If I hit a creature with a melee attack roll using this weapon, I can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within my reach. On a hit, the second creature takes the weapon's damage, but don't add my ability modifier to that damage unless the modifier is negative. I can make this extra attack only once per turn.",    
+    prerequisite: "Greataxe Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("greataxe") !== -1;
+    },
+  },
+  "weapon master (greatsword)": {
+    name: "Weapon Master (Greatsword)",
+    description: "I gain access to the Greatsword's 'Graze' Mastery feature. Graze : If my attack roll with this weapon misses a creature, I can deal damage to that creature equal to the ability modifier I used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",    
+    prerequisite: "Greatsword Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("greatsword") !== -1;
+    },
+  },
+  "weapon master (halberd)": {
+    name: "Weapon Master (Halberd)",
+    description: "I gain access to the Halberd's 'Cleave' Mastery feature. Cleave : If I hit a creature with a melee attack roll using this weapon, I can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within my reach. On a hit, the second creature takes the weapon's damage, but don't add my ability modifier to that damage unless the modifier is negative. I can make this extra attack only once per turn.",    
+    prerequisite: "Halberd Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("halberd") !== -1;
+    },
+  },
+  "weapon master (lance)": {
+    name: "Weapon Master (Lance)",
+    description: "I gain access to the Lance's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
+    prerequisite: "Lance Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("lance") !== -1;
+    },
+  },
+  "weapon master (longsword)": {
+    name: "Weapon Master (Longsword)",
+    description: "I gain access to the Longsword's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
+    prerequisite: "Longsword Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("longsword") !== -1;
+    },
+  },
+  "weapon master (maul)": {
+    name: "Weapon Master (Maul)",
+    description: "I gain access to the Maul's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
+    prerequisite: "Maul Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("maul") !== -1;
+    },
+  },
+  "weapon master (morningstar)": {
+    name: "Weapon Master (Morningstar)",
+    description: "I gain access to the Morningstar's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
+    prerequisite: "Morningstar Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("morningstar") !== -1;
+    },
+  },
+  "weapon master (pike)": {
+    name: "Weapon Master (Pike)",
+    description: "I gain access to the Pike's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
+    prerequisite: "Pike Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("pike") !== -1;
+    },
+  },
+  "weapon master (rapier)": {
+    name: "Weapon Master (Rapier)",
+    description: "I gain access to the Rapier's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Rapier Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("rapier") !== -1;
+    },
+  },
+  "weapon master (scimitar)": {
+    name: "Weapon Master (Scimitar)",
+    description: "I gain access to the Scimitar's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
+    prerequisite: "Scimitar Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("scimitar") !== -1;
+    },
+  },
+  "weapon master (shortsword)": {
+    name: "Weapon Master (Shortsword)",
+    description: "I gain access to the Shortsword's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Shortsword Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("shortsword") !== -1;
+    },
+  },
+  "weapon master (trident)": {
+    name: "Weapon Master (Trident)",
+    description: "I gain access to the Trident's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
+    prerequisite: "Trident Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("trident") !== -1;
+    },
+  },
+  "weapon master (warhammer)": {
+    name: "Weapon Master (Warhammer)",
+    description: "I gain access to the Warhammer's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
+    prerequisite: "Warhammer Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("warhammer") !== -1;
+    },
+  },
+  "weapon master (war pick)": {
+    name: "Weapon Master (War Pick)",
+    description: "I gain access to the War Pick's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",
+    
+    prerequisite: "War Pick Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("war pick") !== -1;
+    },
+  },
+  "weapon master (whip)": {
+    name: "Weapon Master (Whip)",
+    description: "I gain access to the Whip's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",
+    
+    prerequisite: "Whip Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("whip") !== -1;
+    },
+  },
+  "weapon master (blowgun)": {
+    name: "Weapon Master (Blowgun)",
+    description: "I gain access to the Blowgun's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Blowgun Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("blowgun") !== -1;
+    },
+  },
+  "weapon master (hand crossbow)": {
+    name: "Weapon Master (Hand Crossbow)",
+    description: "I gain access to the Hand Crossbow's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Hand Crossbow Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("hand crossbow") !== -1;
+    },
+  },
+  "weapon master (heavy crossbow)": {
+    name: "Weapon Master (Heavy Crossbow)",
+    description: "I gain access to the Heavy Crossbow's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
+    prerequisite: "Heavy Crossbow Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("heavy crossbow") !== -1;
+    },
+  },
+  "weapon master (longbow)": {
+    name: "Weapon Master (Longbow)",
+    description: "I gain access to the Longbow's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
+    prerequisite: "Longbow Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("longbow") !== -1;
+    },
+  },
+  "weapon master (musket)": {
+    name: "Weapon Master (Musket)",
+    description: "I gain access to the Musket's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
+    prerequisite: "Musket Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("musket" || "firearms") !== -1;
+    },
+  },
+  "weapon master (pistol)": {
+    name: "Weapon Master (Pistol)",
+    description: "I gain access to the Pistol's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Pistol Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("pistol" || "firearms") !== -1;
+    },
+  },
+  "weapon master (double-bladed scimitar)": {
+    name: "Weapon Master (Double-Bladed Scimitar)",
+    description: "I gain access to the Double-Bladed Scimitar's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
+    prerequisite: "Double-Bladed Scimitar Proficiency",
+    prereqeval: function (v) {
+      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("double-bladed scimitar") !== -1;
+    },
+  },
+  prerequisite: "Level 4",
+  prereqeval: function (v) {
+    return v.characterLevel >= 4;
+  },
+};
+
+// Dreamwalker feat
+FeatsList["dreamwalker"] = {
+	name : "Dreamwalker",
+	source : [["BOF", 7]],
+	descriptionFull : "Either through training or unknown reasons, you are able to walk between reality and dreams. You gain the following benefit:\n During a long rest, you can enter the Ethereal Plane as an astral projection of yourself. While on this plane, you can see when a creature is dreaming by seeing a near transparent sphere that deforms the fabric of the plane like water refracting light around its head. You can choose to peer into the dream or enter it for a number of minutes equal to five times your proficiency bonus. Once you've peered on enter into a creature's dream, you can't peer again into this creature's dreams until your next long rest.\n If you chose to enter the dream, you may interact with it however you choose and you can also communicate with the dreamer. When the dreamer wakes up, it can make an Insight check against your spell save DC or against a Deception or Persuasion check, your choice, to acknowledge that its dream has been meddled with.\n The DM may choose to not make a roll or give advantage or even disadvantage on the roll depending on the situation and the complexity of the dream. Inserting yourself in a dream has a chance of failure depending on your relationship with the creature. When you enter a dream, the DM rolls d100 and consults the table following.\n\n Relationship    Failure    Success\nFamily Member   \u2013     01-100\nClose Friend    01-10      11-100\nFriend          01-20      21-100\nTrusted Ally    01-30      31-100\nAcquaintance    01-40      41-100\nStranger        01-50      51-100\n\nAny damage you take while on the Ethereal Plane through this feat is also inflicted on your physical body. You die in your sleep if you are killed while on the Ethereal Plane.\n Resting while Dreamwalking isn't as recovering as a normal. At the end of a long rest where you dreamwalked, you do not recover lost Hit Points, though you still regain all Hit Dice normally gained through a long rest. You can spend one or more Hit Dice at the end of the long rest to regain Hit points.",
+	description : "During a Long Rest: enter the dreams of other creatures via the Ethereal Plane, can interact with said creature in their dreams, for up to 5\u00D7 prof. bonus per day. Damage carries over to waking body, don't restore damage to HP upon waking, recover my HD normally, and can spend them to recover HP afterwards.",
+};
+
+// Revised Feats
+// Revenant blade feat
+FeatsList["revenant blade-bof"] = {
+	name : "Revenant Blade",
+	source : [["BOF", 8]],
+	prerequisite : "Being an Elf (any) or Harengon",
+	prereqeval : function(v) { return (/^(?!.*half)(?=.*(elf|eladrin|avariel|grugach|shadar-kai|harengon)).*$/i).test(CurrentRace.known); },
+	descriptionFull : "You have trained with a master of the double blade and their skills have passed on to you. You gain the following benefits:" + "\n   " + "\u2022 Increase your Dexterity or Strength score by 1, to a maximum of 20." + "\n   " + "\u2022 While you are holding a double-bladed scimitar with two hands, you gain a + 1 bonus to Armor Class." + "\n   " + "\u2022 A double-bladed scimitar has the finesse property when you wield it." + "\n   " + "\u2022 On your turn, when you use a bonus action to make a melee attack with the blade at the opposite end of the weapon, the weapon's damage die for this attack increases to 2d4, instead of the usual 1d4." + "\n   " + "You also gain access to the Double-Bladed Scimitar's 'Vex' Mastery feature." + "\n   " + "Vex : If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll" + "\n   " + "against the creature before the end of your next turn.",
+	description : "As a bonus action with the Attack action, I can make an additional attack with a double-bladed scimitar's opposite end for 2d4 slashing damage." + "\n   " + "I treat double-bladed scimitar as having the finesse trait. +1 AC while wielding a double-bladed scimitar with two hands." + "\n   " + "[+1 Strength or Dexterity]." + "\n   " + "I also gain access to the Double-Bladed Scimitar's 'Vex' Mastery feature." + "\n   " + "Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll" + "\n   " + "against the creature before the end of my next turn.",
+	scorestxt : "+1 Strength or Dexterity",
+	action : [["bonus action", " (with Attack action)"]],
+	calcChanges : {
+		atkAdd : [
+			function (fields, v) {
+				if (v.baseWeaponName == 'double-bladed scimitar' && fields.Proficiency) {
+					fields.Description = fields.Description.replace('Two-handed; With Attack action, one attack as bonus action for 1d4; Vex', 'Finesse, two-handed; With Attack action, one attack as bonus action for 2d4; Vex');
+					fields.Mod = v.StrDex;
+				};
+			},
+			"Double-bladed scimitars count as having finesse for me and I can make an extra attack with them as a bonus action when taking the Attack action. They deal 2d4 damage for both ends of the weapon, and I gain access to the Double-Bladed Scimitar's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn."
+		]
+	},
+	extraAC : {
+		mod : 1,
+		text : "I gain a +1 bonus to AC while I'm wielding a double-bladed weapon in two hands.",
+		stopeval : function (v) { return v.usingShield && !(/animated/i).test(What("AC Shield Bonus Description")) || !CurrentWeapons.known.some(function (n) { return n[0] == "double-bladed scimitar" || (WeaponsList[n[0]] && WeaponsList[n[0]].baseWeapon == "double-bladed scimitar"); }); }
+	}
+};
+
+// Double bladed scimitar
+WeaponsList["double-bladed scimitar"] = {
+	regExpSearch : /^(?=.*double)(?=.*scimitar).*$/i,
+	name : "Double-bladed scimitar",
+	infoname: "Double-bladed scimitar [100 gp]",
+	nameAlt : ["Scimitar, Double-bladed"],
+	source : [["E:RLW", 22], ["WGtE", 74], ["BOF", 8]],
+	list : "melee",
+	ability : 1,
+	type : "Martial",
+	damage : [2, 4, "slashing"],
+	range : "Melee",
+	weight : 6,
+	description : "Two-handed; With Attack action, one attack as bonus action for 1d4; Vex",
+	//special : true,
+	abilitytodamage : true,
+	monkweapon: true,
+};
+
+// Revolver
+WeaponsList.revolver = {
+	regExpSearch : /^(?=.*revolver).*$/i,
+	name : "Revolver",
+	infoname: "Revolver [300 gp]",
+	source : [["D24", 73]],
+	list : "firearm",
+	ability : 2,
+	type : "Martial",
+	damage : [2, 8, "piercing"],
+	range : "40/120 ft",
+	weight : 3,
+	description : "Ammunition, reload (6 shots); Sap",
+	abilitytodamage : true,
+	ammo : "modern bullet",
+	defaultExcluded : true,
+	monkweapon: true,
+};
+
+// Boomstick
+WeaponsList.boomstick = {
+	regExpSearch : /^(?=.*boomstick).*$/i,
+	name : "Boomstick",
+	source : [["BOF", 8]],
+	list : "firearm",
+	ability : 2,
+	type : "Martial",
+	damage : [2, 8, "piercing"],
+	range : "15/45 ft",
+	weight : 3,
+	description : "Ammunition, reload (2 shots); Push",
+	abilitytodamage : true,
+	ammo : "modern bullet",
+	defaultExcluded : true,
+	monkweapon: true,
+};
+
+// Shotgun
+WeaponsList.shotgun = {
+	regExpSearch : /^(?=.*shotgun).*$/i,
+	name : "Shotgun",
+	infoname: "Shotgun [600 gp]",
+	source : [["D24", 73]],
+	list : "firearm",
+	ability : 2,
+	type : "Martial",
+	damage : [2, 8, "piercing"],
+	range : "30/90 ft",
+	weight : 7,
+	description : "Ammunition, reload (2 shots); Push",
+	abilitytodamage : true,
+	ammo : "modern bullet",
+	defaultExcluded : true,
+};
+
+MagicItemsList['sun blade'] = {
+	name : "Sun Blade",
+	source : [["SRD", 246], ["D", 205], ["BOF", 8]],
+	type : "weapon (any sword)",
+	rarity : "rare",
+	magicItemTable : "G",
+	attunement : true,
+	description : "As a bonus action, I can have this hilt create a blade of radiance. While the blade exists, it acts like a sword that does +2 to attack and damage rolls, radiant damage (+1d8 to undead), has finesse, emits bright sunlight in a 15-ft radius and dim light in another 15 ft. As an action, I can change the light's radius by 5 ft.",
+	descriptionLong : "As a bonus action, I can have this hilt create or dismiss a blade of pure radiance. While the blade exists, it acts like a sword that grants a +2 bonus to attack and damage rolls, does radiant damage and has the finesse property (if not Heavy). It also deals +1d8 radiant damage to undead and emits sunlight, bright light in a 15-ft radius and dim light in an additional 15-ft radius. As an action, I can expand or reduce both the bright and dim light's radius by 5 ft each, to a maximum of 30 ft each or a minimum of 10 ft each.",
+	descriptionFull : "This item appears to be a longsword hilt. While grasping the hilt, you can use a bonus action to cause a blade of pure radiance to spring into existence, or make the blade disappear. While the blade exists, this magic longsword has the finesse property. If you are proficient with shortswords or longswords, you are proficient with the sun blade.\n   You gain a +2 bonus to attack and damage rolls made with this weapon, which deals radiant damage instead of slashing damage. When you hit an undead with it, that target takes an extra 1d8 radiant damage.\n   The sword's luminous blade emits bright light in a 15-foot radius and dim light for an additional 15 feet. The light is sunlight. While the blade persists, you can use an action to expand or reduce its radius of bright and dim light by 5 feet each, to a maximum of 30 feet each or a minimum of 10 feet each.",
+	weight : 3,
+	action : [["bonus action", " (start/stop)"], ["action", " (change light)"]],
+	chooseGear : {
+		type : "weapon",
+		prefixOrSuffix : "suffix",
+		descriptionChange : ["replace", "sword"],
+		excludeCheck : function (inObjKey, inObj) {
+			var testRegex = /sword|scimitar|rapier|double-bladed scimitar/i;
+			return !testRegex.test(inObjKey) && (!inObj.baseWeapon || !testRegex.test(inObj.baseWeapon));
+		}
+	},
+	calcChanges : {
+		atkAdd : [
+			function (fields, v) {
+				if (!v.theWea.isMagicWeapon && v.isMeleeWeapon && /sword|scimitar|rapier|double-bladed scimitar/i.test(v.baseWeaponName) && /^(?=.*sun)(?=.*blade).*$/i.test(v.WeaponTextName)) {
+					v.theWea.isMagicWeapon = true;
+					fields.Damage_Type = "Radiant";
+					fields.Description = fields.Description.replace(/(, |; )?Counts as magical/i, '');
+					var addFinesse = /(^|[,;]) ?heavy([,;]|$)|finesse/i.test(fields.Description) ? '' : 'Finesse; ';
+					fields.Description += (fields.Description ? '; ' : '') + addFinesse + '+1d8 damage to undead';
+					if (v.baseWeaponName === "longsword" && !fields.Proficiency) {
+						fields.Proficiency = CurrentProfs.weapon.otherWea && CurrentProfs.weapon.otherWea.finalProfs.indexOf("shortsword") !== -1;
+					}
+				}
+			},
+			'If I include the words "Sun Blade" in a the name of a sword, it will be treated as the magic weapon Sun Blade. It adds +2 to hit and damage rolls made with it, deals radiant damage, and deals +1d8 damage to undead. It gains the Finesse property unless it has the Heavy property. Having shortsword proficiency also makes me proficient with it, but only if it is a longsword.',
+			1
+		],
+		atkCalc : [
+			function (fields, v, output) {
+				if (v.isMeleeWeapon && /sword|scimitar|rapier|double-bladed scimitar/i.test(v.baseWeaponName) && /^(?=.*sun)(?=.*blade).*$/i.test(v.WeaponTextName)) {
+					v.theWea.isMagicWeapon = true;
+					output.magic = v.thisWeapon[1] + 2;
+				}
+			}, ''
+		]
+	}
+};
+
+MagicItemsList["frostburn"] = {
+	name : "Frostburn",
+	source : [["BOF", 14]],
+	type : "weapon (any melee weapon)",
+	rarity : "rare",
+	magicItemTable : "?",
+	attunement : true,
+	description : "As a bonus action, I can speak the command word of this magic weapon, causing both flames to erupt from it, and a chill wind to emanate from it. These flames and chill winds add +2d6 Fire damage, +2d6 Cold damage, shine bright light in a 40-ft radius and dim light for an additional 40 ft, and grants me resistance to fire. The flames and chill winds  last until I speak the command word again as a bonus action or sheathe it. Once per hour when I draw the blade, I can extinguish all nonmagical flames within 30 ft of me.",
+	descriptionFull : "While holding this magic weapon, you can take a Bonus Action and use a command word to cause flames to engulf the damage-dealing part of the weapon, and for the weapon to emanate a chill wind. These flames shed Bright Light in a 40-foot radius and Dim Light for an additional 40 feet. While the weapon is enhanced by this ability, it deals an extra 2d6 Fire damage and 2d6 Cold Damage on a hit.\n The enhancement last until you take a Bonus Action to issue the command again or until you drop, stow, or sheathe the weapon. In addition, while you hold the weapon, you have Resistance to Fire damage.\n   In freezing temperatures, the weapon sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet.\n   When you draw this weapon, you can extinguish all nonmagical flames within 30 feet of yourself. Once used, this property can’t be used again for 1 hour.",
+	action : [["bonus action", " (activate/end)"]],
+	usages : 1,
+	recovery : "Hour",
+	additional : "extinguish flames",
+	dmgres : ["Fire"],
+	chooseGear : {
+		type : "weapon",
+		prefixOrSuffix : "brackets",
+		descriptionChange : ["replace", "weapon"],
+		excludeCheck : function (inObjKey, inObj) {
+			var testRegex = /double-bladed scimitar/i;
+			return !(testRegex).test(inObjKey) && (!inObj.baseWeapon || !(testRegex).test(inObj.baseWeapon));
+		},
+	},
+	calcChanges : {
+		atkAdd : [
+			function (fields, v) {
+				if (!v.theWea.isMagicWeapon && v.isMeleeWeapon && (/^(?=.*frostburn).*$/i).test(v.WeaponTextName)) {
+					v.theWea.isMagicWeapon = true;
+					fields.Description = fields.Description.replace(/(, |; )?Counts as magical/i, '');
+					fields.Description += (fields.Description ? '; ' : '') + 'While active, +2d6 fire damage and +2d6 cold damage';
+				}
+			},
+			'If I include the words "Frostburn" in a the name of a melee weapon, it will be treated as the magic weapon Frostburn. When the command word is spoken, the blade erupts with flames and emanates chill winds, adding +2d6 fire damage and +2d6 cold damage  on a hit, a shining light, and resistance to fire.'
+		]
+	}
+};
