@@ -1091,7 +1091,7 @@ WeaponsList.revolver = {
 // Boomstick
 WeaponsList.boomstick = {
 	regExpSearch : /^(?=.*boomstick).*$/i,
-	name : "Boomstick",
+	name : "Boomstick [600 gp]",
 	source : [["BOF", 8]],
 	list : "firearm",
 	ability : 2,
@@ -1110,7 +1110,7 @@ WeaponsList.boomstick = {
 WeaponsList.shotgun = {
 	regExpSearch : /^(?=.*shotgun).*$/i,
 	name : "Shotgun",
-	infoname: "Shotgun [600 gp]",
+	infoname: "Shotgun [550 gp]",
 	source : [["D24", 73]],
 	list : "firearm",
 	ability : 2,
@@ -1122,6 +1122,18 @@ WeaponsList.shotgun = {
 	abilitytodamage : true,
 	ammo : "modern bullet",
 	defaultExcluded : true,
+};
+
+// Ammo
+AmmoList["modern bullet"] = {
+	name : "Bullets, Modern",
+	infoname: "Bullets, Modern [4 gp]",
+	source : [["D24", 72]],
+	weight : 0.1,
+	icon : "Bullets",
+	invName : "Bullets, modern",
+	alternatives : [/^(?=.*bullet)(?=.*modern).*$/i],
+	defaultExcluded : true
 };
 
 MagicItemsList['sun blade'] = {

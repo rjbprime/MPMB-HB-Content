@@ -497,496 +497,7 @@ AddFightingStyle(["fighter", "ranger", "paladin"], "Tunnel Fighter", { // Still 
 	action : [["bonus action", ""]]
 });
 /*
-//New General Feats
-FeatsList["weapon master"] = {
-  name: "Weapon Master",
-  source: [["P24", 209]],
-  regExpSearch: /^(?=.*weapon)(?=.*master).*$/i,
-  scorestxt: "My Strength or Dexterity score increases by 1, to a maximum of 20.",
-  description: "+1 Str/Dex, Gain Weapon Mastery in one weapon of choice. can change choice during a long rest provided I have the appropriate proficiencies.",
-  descriptionFull: desc([
-	"You gain the following benefits",
-	"Ability Score Increase : Increase your Strength or Dexterity score by 1, to a maximum of 20.",
-	"Mastery Property : Your training with weapons allows you to use the mastery property of one kind of Simple or Martial weapon of your choice, provided you have proficiency with it. Whenever you finish a Long Rest, you can change the kind of weapon to another kind.",
-  ]),
-  choices: ["Weapon Master (Club)", "Weapon Master (Dagger)", "Weapon Master (Greatclub)", "Weapon Master (Handaxe)", "Weapon Master (Javelin)", "Weapon Master (Light Hammer)", "Weapon Master (Mace)", "Weapon Master (Quarterstaff)", "Weapon Master (Sickle)", "Weapon Master (Spear)", "Weapon Master (Dart)", "Weapon Master (Light Crossbow)", "Weapon Master (Shortbow)", "Weapon Master (Sling)", "Weapon Master (Battleaxe)", "Weapon Master (Flail)", "Weapon Master (Glaive)", "Weapon Master (Greataxe)", "Weapon Master (Greatsword)", "Weapon Master (Halberd)", "Weapon Master (Lance)", "Weapon Master (Longsword)", "Weapon Master (Maul)", "Weapon Master (Morningstar)", "Weapon Master (Pike)", "Weapon Master (Rapier)", "Weapon Master (Scimitar)", "Weapon Master (Shortsword)", "Weapon Master (Trident)", "Weapon Master (Warhammer)", "Weapon Master (War Pick)", "Weapon Master (Whip)", "Weapon Master (Blowgun)", "Weapon Master (Hand Crossbow)", "Weapon Master (Heavy Crossbow)", "Weapon Master (Longbow)", "Weapon Master (Musket)", "Weapon Master (Pistol)"],
-  "weapon master (club)": {
-    name: "Weapon Master (Club)",
-    description: "I gain access to the Club's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
-    prerequisite: "Club Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("club") !== -1;
-    },
-  },
-  "weapon master (dagger)": {
-    name: "Weapon Master (Dagger)",
-    description: "I gain access to the Dagger's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
-    prerequisite: "Dagger Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("dagger") !== -1;
-    },
-  },
-  "weapon master (greatclub)": {
-    name: "Weapon Master (Greatclub)",
-    description: "I gain access to the Greatclub's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
-    prerequisite: "Greatclub Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("greatclub") !== -1;
-    },
-  },
-  "weapon master (handaxe)": {
-    name: "Weapon Master (Handaxe)",
-    description: "I gain access to the Handaxe's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Handaxe Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("handaxe") !== -1;
-    },
-  },
-  "weapon master (javelin)": {
-    name: "Weapon Master (Javelin)",
-    description: "I gain access to the Javelin's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
-    prerequisite: "Javelin Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("javelin") !== -1;
-    },
-  },
-  "weapon master (light hammer)": {
-    name: "Weapon Master (Light Hammer)",
-    description: "I gain access to the Light Hammer's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
-    prerequisite: "Light Hammer Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("light hammer") !== -1;
-    },
-  },
-  "weapon master (mace)": {
-    name: "Weapon Master (Mace)",
-    description: "I gain access to the Mace's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
-    prerequisite: "Mace Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("mace") !== -1;
-    },
-  },
-  "weapon master (quarterstaff)": {
-    name: "Weapon Master (Quarterstaff)",
-    description: "I gain access to the Quarterstaff's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
-    prerequisite: "Quarterstaff Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("quarterstaff") !== -1;
-    },
-  },
-  "weapon master (sickle)": {
-    name: "Weapon Master (Sickle)",
-    description: "I gain access to the Sickle's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
-    prerequisite: "Sickle Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("sickle") !== -1;
-    },
-  },
-  "weapon master (spear)": {
-    name: "Weapon Master (Spear)",
-    description: "I gain access to the Spear's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
-    prerequisite: "Spear Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("spear") !== -1;
-    },
-  },
-  "weapon master (dart)": {
-    name: "Weapon Master (Dart)",
-    description: "I gain access to the Dart's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Dart Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("dart") !== -1;
-    },
-  },
-  "weapon master (light crossbow)": {
-    name: "Weapon Master (Light Crossbow)",
-    description: "I gain access to the Light Crossbow's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
-    prerequisite: "Light Crossbow Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("light crossbow") !== -1;
-    },
-  },
-  "weapon master (shortbow)": {
-    name: "Weapon Master (Shortbow)",
-    description: "I gain access to the Shortbow's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Shortbow Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("shortbow") !== -1;
-    },
-  },
-  "weapon master (sling)": {
-    name: "Weapon Master (Sling)",
-    description: "I gain access to the Sling's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
-    prerequisite: "Sling Proficiency",
-    prereqeval: function (v) {
-      return v.simpleWeaponsProf || v.otherWeaponsProf.indexOf("sling") !== -1;
-    },
-  },
-  "weapon master (battleaxe)": {
-    name: "Weapon Master (Battleaxe)",
-    description: "I gain access to the Battleaxe's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
-    prerequisite: "Battleaxe Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("battleaxe") !== -1;
-    },
-  },
-  "weapon master (flail)": {
-    name: "Weapon Master (Flail)",
-    description: "I gain access to the Flail's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
-    prerequisite: "Flail Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("flail") !== -1;
-    },
-  },
-  "weapon master (glaive)": {
-    name: "Weapon Master (Glaive)",
-    description: "I gain access to the Glaive's 'Graze' Mastery feature. Graze : If my attack roll with this weapon misses a creature, I can deal damage to that creature equal to the ability modifier I used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",    
-    prerequisite: "Glaive Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("glaive") !== -1;
-    },
-  },
-  "weapon master (greataxe)": {
-    name: "Weapon Master (Greataxe)",
-    description: "I gain access to the Greataxe's 'Cleave' Mastery feature. Cleave : If I hit a creature with a melee attack roll using this weapon, I can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within my reach. On a hit, the second creature takes the weapon's damage, but don't add my ability modifier to that damage unless the modifier is negative. I can make this extra attack only once per turn.",    
-    prerequisite: "Greataxe Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("greataxe") !== -1;
-    },
-  },
-  "weapon master (greatsword)": {
-    name: "Weapon Master (Greatsword)",
-    description: "I gain access to the Greatsword's 'Graze' Mastery feature. Graze : If my attack roll with this weapon misses a creature, I can deal damage to that creature equal to the ability modifier I used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",    
-    prerequisite: "Greatsword Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("greatsword") !== -1;
-    },
-  },
-  "weapon master (halberd)": {
-    name: "Weapon Master (Halberd)",
-    description: "I gain access to the Halberd's 'Cleave' Mastery feature. Cleave : If I hit a creature with a melee attack roll using this weapon, I can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within my reach. On a hit, the second creature takes the weapon's damage, but don't add my ability modifier to that damage unless the modifier is negative. I can make this extra attack only once per turn.",    
-    prerequisite: "Halberd Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("halberd") !== -1;
-    },
-  },
-  "weapon master (lance)": {
-    name: "Weapon Master (Lance)",
-    description: "I gain access to the Lance's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
-    prerequisite: "Lance Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("lance") !== -1;
-    },
-  },
-  "weapon master (longsword)": {
-    name: "Weapon Master (Longsword)",
-    description: "I gain access to the Longsword's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
-    prerequisite: "Longsword Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("longsword") !== -1;
-    },
-  },
-  "weapon master (maul)": {
-    name: "Weapon Master (Maul)",
-    description: "I gain access to the Maul's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
-    prerequisite: "Maul Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("maul") !== -1;
-    },
-  },
-  "weapon master (morningstar)": {
-    name: "Weapon Master (Morningstar)",
-    description: "I gain access to the Morningstar's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",    
-    prerequisite: "Morningstar Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("morningstar") !== -1;
-    },
-  },
-  "weapon master (pike)": {
-    name: "Weapon Master (Pike)",
-    description: "I gain access to the Pike's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
-    prerequisite: "Pike Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("pike") !== -1;
-    },
-  },
-  "weapon master (rapier)": {
-    name: "Weapon Master (Rapier)",
-    description: "I gain access to the Rapier's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Rapier Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("rapier") !== -1;
-    },
-  },
-  "weapon master (scimitar)": {
-    name: "Weapon Master (Scimitar)",
-    description: "I gain access to the Scimitar's 'Nick' Mastery feature. Nick : When I make the extra attack of the Light property, I can make it as part of the Attack action instead of as a Bonus Action. I can make this extra attack only once per turn.",    
-    prerequisite: "Scimitar Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("scimitar") !== -1;
-    },
-  },
-  "weapon master (shortsword)": {
-    name: "Weapon Master (Shortsword)",
-    description: "I gain access to the Shortsword's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Shortsword Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("shortsword") !== -1;
-    },
-  },
-  "weapon master (trident)": {
-    name: "Weapon Master (Trident)",
-    description: "I gain access to the Trident's 'Topple' Mastery feature. Topple : If I hit a creature with this weapon, I can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and my Proficiency Bonus). On a failed save, the creature has the Prone condition.",    
-    prerequisite: "Trident Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("trident") !== -1;
-    },
-  },
-  "weapon master (warhammer)": {
-    name: "Weapon Master (Warhammer)",
-    description: "I gain access to the Warhammer's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
-    prerequisite: "Warhammer Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("warhammer") !== -1;
-    },
-  },
-  "weapon master (war pick)": {
-    name: "Weapon Master (War Pick)",
-    description: "I gain access to the War Pick's 'Sap' Mastery feature. Sap : If I hit a creature with this weapon that creature has Disadvantage on its next attack roll before the start of my next turn.",
-    
-    prerequisite: "War Pick Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("war pick") !== -1;
-    },
-  },
-  "weapon master (whip)": {
-    name: "Weapon Master (Whip)",
-    description: "I gain access to the Whip's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",
-    
-    prerequisite: "Whip Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("whip") !== -1;
-    },
-  },
-  "weapon master (blowgun)": {
-    name: "Weapon Master (Blowgun)",
-    description: "I gain access to the Blowgun's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Blowgun Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("blowgun") !== -1;
-    },
-  },
-  "weapon master (hand crossbow)": {
-    name: "Weapon Master (Hand Crossbow)",
-    description: "I gain access to the Hand Crossbow's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Hand Crossbow Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("hand crossbow") !== -1;
-    },
-  },
-  "weapon master (heavy crossbow)": {
-    name: "Weapon Master (Heavy Crossbow)",
-    description: "I gain access to the Heavy Crossbow's 'Push' Mastery feature. Push : If I hit a creature with this weapon, I can push the creature up to 10 feet straight away from me if it is Large or smaller.",    
-    prerequisite: "Heavy Crossbow Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("heavy crossbow") !== -1;
-    },
-  },
-  "weapon master (longbow)": {
-    name: "Weapon Master (Longbow)",
-    description: "I gain access to the Longbow's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
-    prerequisite: "Longbow Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("longbow") !== -1;
-    },
-  },
-  "weapon master (musket)": {
-    name: "Weapon Master (Musket)",
-    description: "I gain access to the Musket's 'Slow' Mastery feature. Slow : If I hit a creature with this weapon and deal damage to it, I can reduce its Speed by 10 feet until the start of my next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",    
-    prerequisite: "Musket Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("musket" || "firearms") !== -1;
-    },
-  },
-  "weapon master (pistol)": {
-    name: "Weapon Master (Pistol)",
-    description: "I gain access to the Pistol's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Pistol Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("pistol" || "firearms") !== -1;
-    },
-  },
-  "weapon master (double-bladed scimitar)": {
-    name: "Weapon Master (Double-Bladed Scimitar)",
-    description: "I gain access to the Double-Bladed Scimitar's 'Vex' Mastery feature. Vex : If I hit a creature with this weapon and deal damage to the creature, I have Advantage on my next attack roll against the creature before the end of my next turn.",    
-    prerequisite: "Double-Bladed Scimitar Proficiency",
-    prereqeval: function (v) {
-      return v.martialWeaponsProf || v.otherWeaponsProf.indexOf("double-bladed scimitar") !== -1;
-    },
-  },
-  prerequisite: "Level 4",
-  prereqeval: function (v) {
-    return v.characterLevel >= 4;
-  },
-};
 
-FeatsList["fighting style"] = {
-  name: "Fighting Style",
-  source: [["P24", 209],["BOF", 3]],
-  regExpSearch: /^(?=.*fighting)(?=.*style).*$/i,
-  descriptionFull: "Choose a Fighting Style.",
-  description: "Choose a Fighting Style.",
-  choices: ["Fighting Style [Archery]", "Fighting Style [Blind Fighting]", "Fighting Style [Defense]", "Fighting Style [Dueling]", "Fighting Style [Great Weapon Fighting]", "Fighting Style [Interception]", "Fighting Style [Protection]", "Fighting Style [Thrown Weapon Fighting]", "Fighting Style [Two-Weapon Fighting]", "Fighting Style [Unarmed Fighting]","Fighting Style [Close Quarters Shooting]", "Fighting Style [Mariner]", "Fighting Style [Tunnel Fighter]"],
-  "fighting style [archery]": {
-    name: "Fighting Style [Archery]",
-    description: "I gain a +2 bonus to attack rolls I make with Ranged weapons.",    
-    calcChanges: {
-      atkCalc: [
-        function (fields, v, output) {
-          if (v.isRangedWeapon && !v.isNaturalWeapon && !v.isDC) output.extraHit += 2;
-        },
-        "My ranged weapons get a +2 bonus on the To Hit."
-      ]
-    }
-  },
-  "fighting style [blind fighting]": {
-    name: "Fighting Style [Blind Fighting]",
-    description: "I have Blindsight with a range of 10 feet.",    
-    vision: [["Blindsight", 10]],
-  },
-  "fighting style [defense]": {
-    name: "Fighting Style [Defense]",
-    description: "While I'm wearing Light, Medium, or Heavy armor, I gain a +1 bonus to Armor Class.",    
-    extraAC: {
-      name: "Defense Fighting Style", // necessary for features referring to fighting style properties directly
-      mod: 1,
-      text: "I gain a +1 bonus to AC while wearing armor.",
-      stopeval: function (v) {
-        return !v.wearingArmor;
-      }
-    },
-  },
-  "fighting style [dueling]": {
-    name: "Fighting Style [Dueling]",
-    description: "When I'm holding a Melee weapon in one hand and no other weapons, I gain a +2 bonus to damage rolls with that weapon.",    
-    calcChanges: {
-      atkCalc: [
-        function (fields, v, output) {
-          for (var i = 1; i <= FieldNumbers.actions; i++) {
-            if ((/off.hand.attack/i).test(What('Bonus Action ' + i))) return;
-          }
-          if (v.isMeleeWeapon && !v.isNaturalWeapon && !(/((^|[^+-]\b)2|\btwo).?hand(ed)?s?\b/i).test(fields.Description)) output.extraDmg += 2;
-        },
-        "When I'm wielding a melee weapon in one hand and no weapon in my other hand, I do +2 damage with that melee weapon. This condition will always be false if the bonus action 'Off-hand Attack' exists."
-      ]
-    }
-  },
-  "fighting style [great weapon fighting]": {
-    name: "Fighting Style [Great Weapon Fighting]",
-    description: "When I roll damage for an attack I make with a Melee weapon that I am holding with two hands, I can treat any 1 or 2 on a damage die as a 3. The weapon must have the Two-Handed or Versatile properties to gain this benefit.",    
-    calcChanges: {
-      atkAdd: [
-        function (fields, v) {
-          if (v.isMeleeWeapon && (/(\bversatile|((^|[^+-]\b)2|\btwo).?hand(ed)?s?)\b/i).test(fields.Description)) {
-            fields.Description += (fields.Description ? '; ' : '') + 'treat rolls of 1 or 2 on the damage die as a 3' + ((/versatile/i).test(fields.Description) ? ' when two-handed' : '');
-          }
-        },
-        "While wielding a two-handed or versatile melee weapon in two hands, I can treat a roll of 1 or 2 on any damage die as a 3."
-      ]
-    },
-  },
-  "fighting style [interception]": {
-    name: "Fighting Style [Interception]",
-    description: "When a creature I can see hits another creature within 5 feet of me with an attack roll, I can take a Reaction to reduce the damage dealt to the target by 1d10 plus my Proficiency Bonus. I must be holding a Shield or a Simple or Martial weapon to use this Reaction.",    
-    action: "reaction",
-  },
-  "fighting style [protection]": {
-    name: "Fighting Style [Protection]",
-    description: "When a creature I can see attacks a target other than me that is within 5 feet of me, I can take a Reaction to interpose my Shield if I'm holding one. I impose Disadvantage on the triggering attack roll and all other attack rolls against the target until the start of my next turn if I remain within 5 feet of the target.",    
-    action: "reaction",
-  },
-  "fighting style [thrown weapon fighting]": {
-    name: "Fighting Style [Thrown Weapon Fighting]",
-    description: "When I hit with a ranged attack roll using a weapon that has the Thrown property, I gain a +2 bonus to the damage roll.",    
-    calcChanges: {
-      atkAdd: [
-        function (fields, v) {
-          if (v.isThrownWeapon && v.isMeleeWeapon) {
-            fields.Description += (fields.Description ? '; ' : '') + '+2 damage when thrown';
-          }
-        },
-        "I deal +2 damage when I hit a ranged attack made with a thrown weapon."
-      ],
-      atkCalc: [
-        function (fields, v, output) {
-          if (v.isThrownWeapon && !v.isMeleeWeapon) {
-            output.extraDmg += 2;
-          }
-        },
-        ""
-      ],
-    },
-  },
-  "fighting style [two-weapon fighting]": {
-    name: "Fighting Style [Two-Weapon Fighting]",
-    description: "When I make an extra attack as a result of using a weapon that has the Light property, I can add my ability modifier to the damage to that attack if I am not already adding it to the damage.",    
-    calcChanges: {
-      atkCalc: [
-        function (fields, v, output) {
-          if (v.isOffHand) output.modToDmg = true;
-        },
-        "When engaging in two-weapon fighting, I can add my ability modifier to the damage of my off-hand attacks. If a melee weapon includes 'off-hand' or 'secondary' in its name or description, it is considered an off-hand attack."
-      ]
-    },
-  },
-  "fighting style [unarmed fighting]": {
-    name: "Fighting Style [Unarmed Fighting]",
-    description: "When I hit with my Unarmed Strike and deal damage, I can deal Bludgeoning damage equal to 1d6 plus my Strength modifier instead of the normal damage of an Unarmed Strike. If I am not holding any weapons or a Shield when I make the attack roll, the d6 becomes a d8.\n At the start of each of my turns, I can deal 1d4 Bludgeoning damage to one creature Grappled by me.",    
-    calcChanges: {
-      atkAdd: [
-        function (fields, v) {
-          if (v.baseWeaponName == "unarmed strike") {
-            if (fields.Damage_Die == 1 || fields.Damage_Die == "1d4") fields.Damage_Die = '1d6';
-            fields.Description += (fields.Description ? '; ' : '') + 'Versatile (d8)';
-          }
-        },
-        "My unarmed strikes deal 1d6 damage instead of 1, which increases to 1d8 if I have both hands free to make an unarmed strike with.",
-        1
-      ]
-    },
-  },
-  "fighting style [close quarters shooting]": {
-    name: "Fighting Style [Close Quarters Shooting ]",
-    description:"\n   " + "+1 bonus to attack rolls I make with ranged attacks" + "\n   " + "I don't have disadvantage when making a ranged attack while within 5 ft of a hostile target" + "\n   " + "My ranged attacks ignore half and three-quarters cover against targets within 30 ft",
-    calcChanges: {
-      atkCalc: [
-        function (fields, v, output) {
-          if (v.isRangedWeapon && !v.isNaturalWeapon && !v.isDC) output.extraHit += 1;
-        },
-        "My ranged weapons get a +1 bonus on the To Hit, no Disadvantage within 5 ft of hostile target, ignore 1/2 and 3/4 cover."
-      ]
-    }
-  },
-    "fighting style [mariner]": {
-    name: "Fighting Style [Mariner ]",
-	description : "\n   " + "While not wearing heavy armor or using a shield, I gain +1 AC and swim/climb speed" + "\n   " + "The swimming and climbing speeds are equal to my current walking speed",
-	speed : {
-		climb : { spd : "walk", enc : "walk" },
-		swim : { spd : "walk", enc : "walk" }
-	},
-	extraAC : {
-		mod : 1,
-		text : "I gain a +1 bonus to AC while I'm not wearing heavy armor and not using a shield.",
-		stopeval : function (v) { return v.heavyArmor || v.usingShield; }
-	}
-  },
-  "fighting style [tunnel fighter]": {
-    name: "Fighting Style [Tunnel Fighter]",
-	description : "\n   " + "As a bonus action, I enter a defensive stance that lasts until the start of my next turn" + "\n   " + "While I'm in this defensive stance I gain the following two benefits:" + "\n    - " + "I can make opportunity attacks without using my reaction" + "\n    - " + "I can make a melee attack as a reaction if a hostile moves >5 ft while in my reach",
-	action : [["bonus action", ""]]
-  },
-  allowDuplicates: true,
-};
 */
 // Dreamwalker feat
 FeatsList["dreamwalker"] = {
@@ -1011,7 +522,7 @@ FeatsList["revenant blade-bof"] = {
 		atkAdd : [
 			function (fields, v) {
 				if (v.baseWeaponName == 'double-bladed scimitar' && fields.Proficiency) {
-					fields.Description = fields.Description.replace('Two-handed; With Attack action, one attack as bonus action for 1d4; Vex', 'Finesse, two-handed; With Attack action, one attack as bonus action for 2d4; Vex');
+					fields.Description = fields.Description.replace('Two-handed; With Attack action, one attack as bonus action for 1d4', 'Finesse, two-handed; With Attack action, one attack as bonus action for 2d4');
 					fields.Mod = v.StrDex;
 				};
 			},
@@ -1045,39 +556,70 @@ WeaponsList["double-bladed scimitar"] = {
 };
 
 // Revolver
-WeaponsList["revolver"] = {
-  name: "Revolver",
-  infoname: "Revolver [375 gp]",
-  source: [["D14", 73]],
-  regExpSearch: /Revolver/i,
-  type: "Martial",
-  ability: 2,
-  abilitytodamage: true,
-  damage: [2, 8, "piercing"],
-  range: "40/120 ft",
-  description: "Ammunition (Bullet, Firearm), Reload (6)",
-  list: ["ranged", "firearm"],
-  weight: 3,
-  ammo: "bullets, firearm",
-  monkweapon: true,
+WeaponsList.revolver = {
+	regExpSearch : /^(?=.*revolver).*$/i,
+	name : "Revolver",
+	infoname: "Revolver [300 gp]",
+	source : [["D24", 73]],
+	list : "firearm",
+	ability : 2,
+	type : "Martial",
+	damage : [2, 8, "piercing"],
+	range : "40/120 ft",
+	weight : 3,
+	description : "Ammunition, reload (6 shots)",
+	abilitytodamage : true,
+	ammo : "modern bullet",
+	defaultExcluded : true,
+	monkweapon: true,
+};
+
+// Boomstick
+WeaponsList.boomstick = {
+	regExpSearch : /^(?=.*boomstick).*$/i,
+	name : "Boomstick",
+	source : [["BOF", 8]],
+	list : "firearm",
+	ability : 2,
+	type : "Martial",
+	damage : [2, 8, "piercing"],
+	range : "15/45 ft",
+	weight : 3,
+	description : "Ammunition, reload (2 shots)",
+	abilitytodamage : true,
+	ammo : "modern bullet",
+	defaultExcluded : true,
+	monkweapon: true,
 };
 
 // Shotgun
-WeaponsList["shotgun"] = {
-  name: "Shotgun",
-  infoname: "Shotgun [750 gp]",
-  source: [["D14", 73]],
-  regExpSearch: /shotgun/i,
-  type: "Martial",
-  ability: 2,
-  abilitytodamage: true,
-  damage: [2, 8, "piercing"],
-  range: "30/90 ft",
-  description: "Ammunition (Bullet, Firearm), Reload (2), Two-handed",
-  list: ["ranged", "firearm"],
-  weight: 7,
-  ammo: "bullets, firearm",
-  monkweapon: true,
+WeaponsList.shotgun = {
+	regExpSearch : /^(?=.*shotgun).*$/i,
+	name : "Shotgun",
+	infoname: "Shotgun [600 gp]",
+	source : [["D24", 73]],
+	list : "firearm",
+	ability : 2,
+	type : "Martial",
+	damage : [2, 8, "piercing"],
+	range : "30/90 ft",
+	weight : 7,
+	description : "Ammunition, reload (2 shots), Two-handed",
+	abilitytodamage : true,
+	ammo : "modern bullet",
+	defaultExcluded : true,
+};
+
+// Ammo
+AmmoList["modern bullet"] = {
+	name : "Bullets, Modern",
+	infoname: "Bullets, Modern [4 gp]",
+	source : [["D24", 72]],
+	weight : 0.1,
+	icon : "Bullets",
+	invName : "Bullets, modern",
+	alternatives : [/^(?=.*bullet)(?=.*modern).*$/i],
+	defaultExcluded : true
 };
 
 MagicItemsList['sun blade'] = {
